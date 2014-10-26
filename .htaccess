@@ -1,0 +1,9 @@
+RewriteEngine on
+	RewriteBase /
+
+
+	#if the request is not secure
+	RewriteCond %{HTTPS} off
+	#redirect to the secure version
+	RewriteCond %{SERVER_PORT} !^443
+	RewriteRule (.*) https://%{HTTP_HOST}/$1 [R=301,L]
