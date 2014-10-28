@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title></title>
+    <title><?=str_replace(">>", "" ,$sider_array[$pageid]);?> | NTUvoteV2 後台管理</title>
 
     <link href="<?=base_url('assets/css/bootstrap.min.css');?>" rel="stylesheet">
     <link href="<?=base_url('assets/css/dashboard.css');?>" rel="stylesheet">
@@ -32,8 +32,7 @@
         <div class="navbar-collapse collapse">
 
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">郭杰穎</a></li>
-            <li><a href="#">登出</a></li>
+            <li><a href="<?=base_url('admin/logout');?>">登出</a></li>
           </ul>
         </div>
       </div>
@@ -59,7 +58,8 @@
 
 
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Dashboard</h1>
+          <h1 class="page-header"><?=str_replace(">>", "" ,$sider_array[$pageid]);?></h1>
+          <p>此處可管理投票亭、設定帳號密碼、產生平版登入密碼等功能</p>
 
           <div class="row placeholders">
             <div class="col-xs-6 col-sm-3 placeholder">
