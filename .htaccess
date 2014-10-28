@@ -7,3 +7,8 @@ RewriteEngine on
 	#redirect to the secure version
 	RewriteCond %{SERVER_PORT} !^443
 	RewriteRule (.*) https://%{HTTP_HOST}/$1 [R=301,L]
+
+	RewriteCond %{REQUEST_URI} !^/assets/css/([^/]*)\.css$
+	RewriteCond %{REQUEST_URI} !^/assets/img/([^/]*)\.(jpg|png|gif)$
+	RewriteCond %{REQUEST_URI} !^/assets/js/([^/]*)\.js$
+	RewriteRule ^ index\.php [NC,L]
