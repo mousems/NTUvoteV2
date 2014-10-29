@@ -32,7 +32,7 @@
         <div class="navbar-collapse collapse">
 
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="<?=base_url('admin/logout');?>">登出</a></li>
+            <li><a href="<?=base_url('login/logout');?>">登出</a></li>
           </ul>
         </div>
       </div>
