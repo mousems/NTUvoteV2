@@ -1,4 +1,4 @@
-﻿<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Admin extends CI_Controller {
 
@@ -422,14 +422,85 @@ class Admin extends CI_Controller {
 
 	public function ballot_type()
 	{
+
+
+
+
+		$this->load->model('vote_model');
+		$this->load->library('table');
+
+
+		$query_result = $this->vote_model->get_ballot_type_list();
+
+
+
+		$tmpl = array (
+		                    'table_open'          => '<table class="table table-striped">',
+
+		                    'heading_row_start'   => '<tr>',
+		                    'heading_row_end'     => '</tr>',
+		                    'heading_cell_start'  => '<th>',
+		                    'heading_cell_end'    => '</th>',
+
+		                    'row_start'           => '<tr>',
+		                    'row_end'             => '</tr>',
+		                    'cell_start'          => '<td>',
+		                    'cell_end'            => '</td>',
+
+		                    'row_alt_start'       => '<tr>',
+		                    'row_alt_end'         => '</tr>',
+		                    'cell_alt_start'      => '<td>',
+		                    'cell_alt_end'        => '</td>',
+
+		                    'table_close'         => '</table>'
+		              );
+
+		$this->table->set_template($tmpl);
+
+		$table = array(array("票種標題1","票種標題2","投票類型","操作"));		
+
+		foreach ($query_result as $key => $value) {
+
+			
+
+			switch ($value->{'type'}) {
+				case 'single':
+					$mapping_html = '<span class="label label-primary">多數決</span>';
+					break;
+				
+				case 'multi':
+					$mapping_html = '<span class="label label-success">正反決</span>';
+					break;
+					
+			}
+
+			array_push($table , array(
+										base64_decode($value->{'title1'}), 
+										base64_decode($value->{'title2'}), 
+										$mapping_html,
+										'<button class="btn btn-danger" onclick="javascript:location.href=\''.base_url('/admin/ballot_type_del/'.$value->{'t_id'}).'\';">刪除</span>'
+									)
+			);
+		}
+
+
+
 		$pageid = "ballot_type";
 		$data = array(
 					'sider_array'=>$this->generateSiderArray($pageid),
-					'pageid'=>$pageid
+					'pageid'=>$pageid,
+					'ballot_type_table'=>$this->table->generate($table)
 					);
 		$this->load->view('admin/'.$pageid , $data);
 	}
+	public function ballot_type_del($t_id){
 
+		$this->load->model('vote_model');
+
+		$this->vote_model->del_ballot_type($t_id);
+		redirect("/admin/ballot_type" , "location");
+
+	}
 	public function ballot_type_new()
 	{
 		$pageid = "ballot_type_new";
@@ -440,25 +511,184 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/'.$pageid , $data);
 	}
 
+
+	public function ballot_type_new_do()
+	{
+		$this->load->model('vote_model');
+
+		if($this->input->post('title1')==""){
+			$content = '<span class="label label-danger">錯誤</span>票種標題1不得為空';
+		}elseif($this->input->post('title2')==""){
+			$content = '<span class="label label-danger">錯誤</span>票種標題2不得為空';
+		}elseif($this->input->post('type')!="single" && $this->input->post('type')!="multi"){
+			$content = '<span class="label label-danger">錯誤</span>投票類型錯誤';
+		}else{
+
+			$query_result = $this->vote_model->add_ballot_type(
+													$this->input->post('title1') , 
+													$this->input->post('title2') , 
+													$this->input->post('type')
+													);
+			redirect("admin/ballot_type" , "location");
+		}
+
+
+		$pageid = "account_new";
+		$data = array(
+					'sider_array'=>$this->generateSiderArray($pageid),
+					'pageid'=>$pageid,
+					'result_title'=>"票亭新增結果",
+					'content'=>$content
+					);
+		$this->load->view('admin/result' , $data);
+	}
+
 	public function candidate()
 	{
+
+
+
+		$this->load->model('vote_model');
+		$this->load->library('table');
+
+
+		$query_result = $this->vote_model->get_candidate_list();
+
+
+
+		$tmpl = array (
+		                    'table_open'          => '<table class="table table-striped">',
+
+		                    'heading_row_start'   => '<tr>',
+		                    'heading_row_end'     => '</tr>',
+		                    'heading_cell_start'  => '<th>',
+		                    'heading_cell_end'    => '</th>',
+
+		                    'row_start'           => '<tr>',
+		                    'row_end'             => '</tr>',
+		                    'cell_start'          => '<td>',
+		                    'cell_end'            => '</td>',
+
+		                    'row_alt_start'       => '<tr>',
+		                    'row_alt_end'         => '</tr>',
+		                    'cell_alt_start'      => '<td>',
+		                    'cell_alt_end'        => '</td>',
+
+		                    'table_close'         => '</table>'
+		              );
+
+		$this->table->set_template($tmpl);
+
+		$table = array(array("候選人票種","候選人編號","姓名","操作"));		
+
+		foreach ($query_result as $key => $value) {
+
+			
+
+			switch ($value->{'type'}) {
+				case 'single':
+					$mapping_html = '<span class="label label-primary">'.base64_decode($value->{'title1'}).'</span>';
+					break;
+				
+				case 'multi':
+					$mapping_html = '<span class="label label-success">'.base64_decode($value->{'title1'}).'</span>';
+					break;
+					
+			}
+
+			array_push($table , array(
+										$mapping_html,
+										$value->{'num'}, 
+										base64_decode($value->{'name'}), 
+										'<button class="btn btn-danger" onclick="javascript:location.href=\''.base_url('/admin/candidate_del/'.$value->{'c_id'}).'\';">刪除</span>'
+									)
+			);
+		}
+
+
+
+
+
+
+
 		$pageid = "candidate";
 		$data = array(
 					'sider_array'=>$this->generateSiderArray($pageid),
-					'pageid'=>$pageid
+					'pageid'=>$pageid,
+					'candidate_table'=>$this->table->generate($table)
 					);
 		$this->load->view('admin/'.$pageid , $data);
 	}
 
+	public function candidate_del($c_id)
+	{
+		$this->load->model('vote_model');
+
+		$this->vote_model->del_candidate($c_id);
+		redirect("/admin/candidate" , "location");
+
+	}
+
 	public function candidate_new()
 	{
+
+
+
+		$this->load->model('vote_model');
+		$this->load->library('table');
+
+
+		$query_result = $this->vote_model->get_ballot_type_list();
+
+		$html_ballottype="";
+
+		foreach ($query_result as $key => $value) {
+			$html_ballottype.='<option value="'.$value->{'t_id'}.'">'.base64_decode($value->{'title1'}).'</option>';
+		}
+
+
+
+
+		
 		$pageid = "candidate_new";
 		$data = array(
 					'sider_array'=>$this->generateSiderArray($pageid),
-					'pageid'=>$pageid
+					'pageid'=>$pageid,
+					'html_ballottype'=>$html_ballottype
 					);
 		$this->load->view('admin/'.$pageid , $data);
 	}
+
+	public function candidate_new_do()
+	{
+		$this->load->model('vote_model');
+
+		if($this->input->post('name')==""){
+			$content = '<span class="label label-danger">錯誤</span>候選人姓名不得為空';
+		}elseif($this->input->post('num')==""){
+			$content = '<span class="label label-danger">錯誤</span>候選人編號不得為空';
+		}else{
+
+			$query_result = $this->vote_model->add_candidate(
+													$this->input->post('name') , 
+													$this->input->post('num') , 
+													$this->input->post('t_id')
+													);
+			redirect("admin/candidate" , "location");
+		}
+
+
+		$pageid = "account_new";
+		$data = array(
+					'sider_array'=>$this->generateSiderArray($pageid),
+					'pageid'=>$pageid,
+					'result_title'=>"票亭新增結果",
+					'content'=>$content
+					);
+		$this->load->view('admin/result' , $data);
+	}
+
+
 
 	public function mapping()
 	{

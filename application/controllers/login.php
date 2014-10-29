@@ -19,10 +19,11 @@ class Login extends CI_Controller {
 	 */
 	public function index()
 	{
+
 		$this->load->library('user');
 
 		if ($this->user->valid_session()) {
-			switch ($this->CI->session->userdata('logintype')) {
+			switch ($this->session->userdata('logintype')) {
 				case 'admin':
 					redirect('admin', 'location');
 					break;

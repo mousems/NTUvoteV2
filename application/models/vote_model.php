@@ -201,7 +201,65 @@ class Vote_model extends CI_Model {
 
     }
 
+    function get_ballot_type_list(){
 
+        $this->db->from('ballot_type');
+        $query = $this->db->get();
+        $ballot_type_list = $query->result();
+
+
+        return $ballot_type_list;
+    }
+
+    function del_ballot_type($t_id){
+        $this->db->delete('ballot_map',array('t_id'=>$t_id));
+
+        $this->db->delete('ballot_type',array('t_id'=>$t_id));
+
+    }
+
+
+    function add_ballot_type($title1 , $title2 , $type){
+
+        $data = array(
+           'title1' => base64_encode($title1),
+           'title2' => base64_encode($title2),
+           'type' => $type
+        );
+        $this->db->insert('ballot_type', $data);
+
+
+     }
+
+    function get_candidate_list(){
+
+        $this->db->from('candidate');
+        $this->db->join('ballot_type' ,'ballot_type.t_id=candidate.t_id');
+        $this->db->order_by('ballot_type.t_id asc , candidate.num asc');
+        $query = $this->db->get();
+        $candidate_list = $query->result();
+
+
+        return $candidate_list;
+    }
+
+
+    function add_candidate($name , $num , $t_id){
+
+        $data = array(
+           'name' => base64_encode($name),
+           'num' => $num,
+           't_id' => $t_id
+        );
+        $this->db->insert('candidate', $data);
+
+
+     }
+    function del_candidate($c_id){
+        $this->db->delete('candidate',array('c_id'=>$c_id));
+
+
+    }
 
     function generateRandomString($length = 10) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
