@@ -20,7 +20,7 @@
     <div class="container">
 
       <form class="form-signin" role="form" action="<?=base_url('login/login_do');?>" method="POST">
-        <h2 class="form-signin-heading">Please sign in</h2>
+        <h2 class="form-signin-heading">NTUvoteV2</h2>
         <input type="username" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
         <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
         登入身份：<select id="logintype" name="logintype">

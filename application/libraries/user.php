@@ -13,8 +13,9 @@ class User {
 
 		$this->db = $this->CI->load->database('default', true);
 
-		$this->valid_session();
+		//$this->valid_session();
 	}
+
 
 	public function valid_session(){
 		if ($this->CI->session->userdata('logintype')==FALSE) {
@@ -34,8 +35,6 @@ class User {
 			}
 
 		}
-
-
 	}
 
 
