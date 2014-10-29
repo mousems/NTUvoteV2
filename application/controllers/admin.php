@@ -337,7 +337,7 @@ class Admin extends CI_Controller {
 
 		$this->table->set_template($tmpl);
 
-		$table = array(array("票別名稱","授權碼前綴","對應票種"));		
+		$table = array(array("票別名稱","授權碼前綴","對應票種","操作"));		
 
 		foreach ($query_result as $key => $value) {
 			$mapping_html = "";
@@ -355,9 +355,10 @@ class Admin extends CI_Controller {
 			}
 
 			array_push($table , array(
-										$value->{'l_id'} , 
+										$value->{'name'}, 
 										$value->{'prefix'} ,
-										$mapping_html 
+										$mapping_html ,
+										'<button class="btn btn-danger" onclick="javascript:location.href=\''.base_url('/admin/ballot_list_del/'.$value->{'l_id'}).'\';">刪除</span>'
 									)
 			);
 		}
@@ -371,7 +372,16 @@ class Admin extends CI_Controller {
 					);
 		$this->load->view('admin/'.$pageid , $data);
 	}
+	public function ballot_list_del($l_id)
+	{
 
+		$this->load->model('vote_model');
+
+		$this->vote_model->del_ballot_list($l_id);
+		redirect("/admin/ballot_list" , "location");
+
+
+	}
 	public function ballot_list_new()
 	{
 		$pageid = "ballot_list_new";
@@ -380,6 +390,34 @@ class Admin extends CI_Controller {
 					'pageid'=>$pageid
 					);
 		$this->load->view('admin/'.$pageid , $data);
+	}
+
+	public function ballot_list_new_do()
+	{
+		$this->load->model('vote_model');
+
+		if($this->input->post('name')==""){
+			$content = '<span class="label label-danger">錯誤</span>票別名稱不得為空';
+		}elseif($this->input->post('prefix')==""){
+			$content = '<span class="label label-danger">錯誤</span>授權碼前綴不得為空';
+		}else{
+
+			$query_result = $this->vote_model->add_ballot_list(
+													$this->input->post('name') , 
+													$this->input->post('prefix')
+													);
+			redirect("admin/ballot_list" , "location");
+		}
+
+
+		$pageid = "account_new";
+		$data = array(
+					'sider_array'=>$this->generateSiderArray($pageid),
+					'pageid'=>$pageid,
+					'result_title'=>"票亭新增結果",
+					'content'=>$content
+					);
+		$this->load->view('admin/result' , $data);
 	}
 
 	public function ballot_type()

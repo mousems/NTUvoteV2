@@ -169,6 +169,7 @@ class Vote_model extends CI_Model {
 
             $tmp = new stdClass();
             $tmp->{'l_id'} = $value->{'l_id'};
+            $tmp->{'name'} = base64_decode($value->{'name'});
             $tmp->{'prefix'} = $value->{'prefix'};
             $tmp->{'t_arr'} = $t_id_array;
             
@@ -179,7 +180,26 @@ class Vote_model extends CI_Model {
         return $return_result;
     }
 
+    function del_ballot_list($l_id){
+        $this->db->delete('ballot_map',array('l_id'=>$l_id));
 
+        $this->db->delete('ballot_list',array('l_id'=>$l_id));
+
+
+    }
+
+
+    function add_ballot_list($name , $prefix){
+
+
+        $data = array(
+           'name' => base64_encode($name),
+           'prefix' => $prefix
+        );
+        $this->db->insert('ballot_list', $data);
+
+
+    }
 
 
 
