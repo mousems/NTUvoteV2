@@ -13,7 +13,6 @@
     <link href="<?=base_url('assets/css/dashboard.css');?>" rel="stylesheet">
     <script src="<?=base_url('assets/js/ie-emulation-modes-warning.js');?>"></script>
     <script src="<?=base_url('assets/js/ie10-viewport-bug-workaround.js');?>"></script>
-
   </head>
 
   <body>
@@ -61,26 +60,7 @@
           <h1 class="page-header"><?=str_replace(">>", "" ,$sider_array[$pageid]);?></h1>
           <p>此處可監看各票亭使用狀況</p>
           <div class="row placeholders">
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
+            <div id="container" style="min-width: 600px; height: 400px; margin: 0 auto"></div>
           </div>
           <h2 class="sub-header">票亭狀態</h2>
           <p>離線：超過兩分鐘失聯稱為離線。投票中：可從後台使其離開投票狀態。</p>
@@ -98,5 +78,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="<?=base_url('assets/js/bootstrap.min.js');?>"></script>
     <script src="<?=base_url('assets/js/docs.min.js');?>"></script>
+    <script src="<?=base_url('assets/js/dashboard.js');?>"></script>
+    <script src="<?=base_url('assets/js/highcharts.js');?>"></script>
+    <script src="<?=base_url('assets/js/exporting.js');?>"></script>
+
+
   </body>
 </html>
