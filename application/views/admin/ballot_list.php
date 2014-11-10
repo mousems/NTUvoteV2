@@ -59,7 +59,7 @@
 
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <h1 class="page-header"><?=str_replace(">>", "" ,$sider_array[$pageid]);?></h1>
-          <p>此處可新增票別，並設定對應授權碼之前綴字串。若要設定票別對應的票種，請至票種關連設定。</p>
+          <p>此處可新增票別，並設定對應授權碼之前綴字串。若要設定票別對應的票種，請點選編輯關連。</p>
 
           <div class="row placeholders">
           </div>

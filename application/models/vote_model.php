@@ -262,6 +262,60 @@ class Vote_model extends CI_Model {
 
     }
 
+    function get_ballot_list_by_l_id($l_id){
+
+        $this->db->from('ballot_list');
+        $this->db->where('l_id' , $l_id);
+        $query = $this->db->get();
+        $ballot_list = $query->result();
+
+
+        return $ballot_list;
+    }
+
+    // get ballot type that assign to a ballot list status
+    function get_ballot_type_assign_status($l_id){
+
+        $this->db->from('ballot_map');
+        $this->db->where('l_id' , $l_id);
+        $query = $this->db->get();
+        $list = $query->result();
+
+        $map_to_t_id = array();
+        foreach ($list as $key => $value) {
+            array_push($map_to_t_id, $value->{'t_id'});
+        }
+
+
+        $this->db->from('ballot_type');
+        $query = $this->db->get();
+        $list = $query->result();
+
+
+        foreach ($list as $key => $value) {
+            if (in_array($value->{'t_id'}, $map_to_t_id)) {
+                $list[$key]->{'assign'} = 'true';
+            }else{
+                $list[$key]->{'assign'} = 'false';
+            }
+        }
+
+        return $list;
+    }
+    function mapping_do($postvalue){
+
+        $this->db->delete('ballot_map',array('l_id'=>$postvalue['l_id']));
+        print_r($postvalue);
+        foreach ($postvalue as $key => $value) {
+            if (preg_match("/(^\d+$)/", $key)===1) {
+                $data = array(
+                    'l_id' => $postvalue['l_id'],
+                    't_id' => $key
+                );
+                $this->db->insert('ballot_map', $data);    
+            }
+        }
+    }
     function generateRandomString($length = 10) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $randomString = '';

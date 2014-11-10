@@ -71,7 +71,6 @@ class Admin extends CI_Controller {
 
 		$this->table->set_template($tmpl);
 
-		print_r(date("U"));
 		$table = array(array("地點","一號平版","二號平版","三號平版","四號平版"));
 		$tmp_aid = "start";
 		$tmp_row = array();
@@ -358,7 +357,7 @@ class Admin extends CI_Controller {
 										$value->{'name'}, 
 										$value->{'prefix'} ,
 										$mapping_html ,
-										'<button class="btn btn-danger" onclick="javascript:location.href=\''.base_url('/admin/ballot_list_del/'.$value->{'l_id'}).'\';">刪除</span>'
+										'<button class="btn btn-warning" onclick="javascript:location.href=\''.base_url('/admin/mapping/'.$value->{'l_id'}).'\';">編輯關聯</span><button class="btn btn-danger" onclick="javascript:location.href=\''.base_url('/admin/ballot_list_del/'.$value->{'l_id'}).'\';">刪除</span>'
 									)
 			);
 		}
@@ -694,16 +693,68 @@ class Admin extends CI_Controller {
 
 
 
-	public function mapping()
+	public function mapping($l_id="")
 	{
+		if ($l_id == "") {
+			redirect("/admin/ballot_list" , "location");
+		}
+
+		$this->load->model('vote_model');
+
+		$ballot_list_name = $this->vote_model->get_ballot_list_by_l_id($l_id);
+		$ballot_list_name = $ballot_list_name[0]->{'name'};
+
+
+
+		$ballot_type_list = $this->vote_model->get_ballot_type_assign_status($l_id);
+
+		$mapping_html = "";
+		foreach ($ballot_type_list as $key => $value) {
+			
+			switch ($value->{'assign'}) {
+				case 'true':
+					$mapping_html .= "<label><input type='checkbox' id='".$value->{'t_id'}."' name='".$value->{'t_id'}."' value='true' checked>";
+					break;
+				
+				case 'false':
+					$mapping_html .= "<label><input type='checkbox' id='".$value->{'t_id'}."' name='".$value->{'t_id'}."' value='true'>";
+					break;
+					
+			}
+			switch ($value->{'type'}) {
+				case 'single':
+					$mapping_html .= '<span class="label label-primary">'.$value->{'title1'}.'</span></label><br />';
+					break;
+				
+				case 'multi':
+					$mapping_html .= '<span class="label label-success">'.$value->{'title1'}.'</span></label><br />';
+					break;
+					
+			}
+
+		}
+
+
 		$pageid = "mapping";
 		$data = array(
 					'sider_array'=>$this->generateSiderArray($pageid),
-					'pageid'=>$pageid
+					'pageid'=>$pageid,
+					'ballot_list_name'=>$ballot_list_name,
+					'mapping_html'=>$mapping_html,
+					'l_id'=>$l_id
 					);
 		$this->load->view('admin/'.$pageid , $data);
 	}
 
+	public function mapping_do()
+	{
+
+		$this->load->model('vote_model');
+		$this->vote_model->mapping_do($this->input->post());
+
+		redirect("admin/ballot_list" , "location");
+
+	}
 	public function setting()
 	{
 		$pageid = "setting";
@@ -725,7 +776,6 @@ class Admin extends CI_Controller {
 						'ballot_type_new' => ">>票種新增",
 						'candidate' => "候選人管理",
 						'candidate_new' => ">>候選人新增",
-						'mapping' => "票種關連設定",
 						'setting' => "系統設定"
 							 );
 
