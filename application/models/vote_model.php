@@ -44,7 +44,7 @@ class Vote_model extends CI_Model {
            'username' => $username,
            'password' => $password_en,
            'salt' => $salt,
-           'name' => base64_encode($location),
+           'name' => $location,
            'rule' => "station",
            'boothcount' => $boothcount
         );
@@ -160,7 +160,7 @@ class Vote_model extends CI_Model {
 
                 $tmp = new stdClass();
                 $tmp->{'t_id'} = $value2->{'t_id'};
-                $tmp->{'title1'} = base64_decode($value2->{'title1'});       
+                $tmp->{'title1'} = $value2->{'title1'};       
                 $tmp->{'type'} = $value2->{'type'};
 
                 array_push($t_id_array , $tmp);
@@ -169,7 +169,7 @@ class Vote_model extends CI_Model {
 
             $tmp = new stdClass();
             $tmp->{'l_id'} = $value->{'l_id'};
-            $tmp->{'name'} = base64_decode($value->{'name'});
+            $tmp->{'name'} = $value->{'name'};
             $tmp->{'prefix'} = $value->{'prefix'};
             $tmp->{'t_arr'} = $t_id_array;
             
@@ -193,7 +193,7 @@ class Vote_model extends CI_Model {
 
 
         $data = array(
-           'name' => base64_encode($name),
+           'name' => $name,
            'prefix' => $prefix
         );
         $this->db->insert('ballot_list', $data);
@@ -222,8 +222,8 @@ class Vote_model extends CI_Model {
     function add_ballot_type($title1 , $title2 , $type){
 
         $data = array(
-           'title1' => base64_encode($title1),
-           'title2' => base64_encode($title2),
+           'title1' => $title1,
+           'title2' => $title2,
            'type' => $type
         );
         $this->db->insert('ballot_type', $data);
@@ -244,11 +244,12 @@ class Vote_model extends CI_Model {
     }
 
 
-    function add_candidate($name , $num , $t_id){
+    function add_candidate($name , $num , $img , $t_id){
 
         $data = array(
-           'name' => base64_encode($name),
+           'name' => $name,
            'num' => $num,
+           'img' => $img,
            't_id' => $t_id
         );
         $this->db->insert('candidate', $data);

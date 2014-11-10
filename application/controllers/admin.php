@@ -101,7 +101,7 @@ class Admin extends CI_Controller {
 
 					array_push($table, $tmp_row);
 				}
-				$tmp_row=array(base64_decode($value->{'name'}));
+				$tmp_row=array($value->{'name'});
 			}
 
 			array_push($tmp_row, $this->status_to_button($value->{'status'},$value->{'a_id'},$value->{'lastseen'}));
@@ -186,7 +186,7 @@ class Admin extends CI_Controller {
 
 		foreach ($query_result as $key => $value) {
 			array_push($table , array(
-										base64_decode($value->{'name'}) , 
+										$value->{'name'} , 
 										$value->{'username'} , 
 										$value->{'boothcount'} , 
 										'<button class="btn btn-danger" onclick="javascript:location.href=\''.base_url('/admin/account_del/'.$value->{'a_id'}).'\';">刪除</span>'
@@ -475,8 +475,8 @@ class Admin extends CI_Controller {
 			}
 
 			array_push($table , array(
-										base64_decode($value->{'title1'}), 
-										base64_decode($value->{'title2'}), 
+										$value->{'title1'}, 
+										$value->{'title2'}, 
 										$mapping_html,
 										'<button class="btn btn-danger" onclick="javascript:location.href=\''.base_url('/admin/ballot_type_del/'.$value->{'t_id'}).'\';">刪除</span>'
 									)
@@ -579,7 +579,7 @@ class Admin extends CI_Controller {
 
 		$this->table->set_template($tmpl);
 
-		$table = array(array("候選人票種","候選人編號","姓名","操作"));		
+		$table = array(array("候選人票種","候選人編號","姓名","照片","操作"));		
 
 		foreach ($query_result as $key => $value) {
 
@@ -587,11 +587,11 @@ class Admin extends CI_Controller {
 
 			switch ($value->{'type'}) {
 				case 'single':
-					$mapping_html = '<span class="label label-primary">'.base64_decode($value->{'title1'}).'</span>';
+					$mapping_html = '<span class="label label-primary">'.$value->{'title1'}.'</span>';
 					break;
 				
 				case 'multi':
-					$mapping_html = '<span class="label label-success">'.base64_decode($value->{'title1'}).'</span>';
+					$mapping_html = '<span class="label label-success">'.$value->{'title1'}.'</span>';
 					break;
 					
 			}
@@ -599,7 +599,8 @@ class Admin extends CI_Controller {
 			array_push($table , array(
 										$mapping_html,
 										$value->{'num'}, 
-										base64_decode($value->{'name'}), 
+										$value->{'name'}, 
+										"<img src='".$value->{'img'}."' height='150px'/>", 
 										'<button class="btn btn-danger" onclick="javascript:location.href=\''.base_url('/admin/candidate_del/'.$value->{'c_id'}).'\';">刪除</span>'
 									)
 			);
@@ -643,7 +644,7 @@ class Admin extends CI_Controller {
 		$html_ballottype="";
 
 		foreach ($query_result as $key => $value) {
-			$html_ballottype.='<option value="'.$value->{'t_id'}.'">'.base64_decode($value->{'title1'}).'</option>';
+			$html_ballottype.='<option value="'.$value->{'t_id'}.'">'.$value->{'title1'}.'</option>';
 		}
 
 
@@ -667,22 +668,25 @@ class Admin extends CI_Controller {
 			$content = '<span class="label label-danger">錯誤</span>候選人姓名不得為空';
 		}elseif($this->input->post('num')==""){
 			$content = '<span class="label label-danger">錯誤</span>候選人編號不得為空';
+		}elseif($this->input->post('img')==""){
+			$content = '<span class="label label-danger">錯誤</span>候選人照片連結不得為空';
 		}else{
 
 			$query_result = $this->vote_model->add_candidate(
 													$this->input->post('name') , 
-													$this->input->post('num') , 
+													$this->input->post('num') ,
+													$this->input->post('img') ,
 													$this->input->post('t_id')
 													);
 			redirect("admin/candidate" , "location");
 		}
 
 
-		$pageid = "account_new";
+		$pageid = "candidate_new";
 		$data = array(
 					'sider_array'=>$this->generateSiderArray($pageid),
 					'pageid'=>$pageid,
-					'result_title'=>"票亭新增結果",
+					'result_title'=>"候選人新增結果",
 					'content'=>$content
 					);
 		$this->load->view('admin/result' , $data);
