@@ -26,6 +26,7 @@ class Vote_model extends CI_Model {
         return $query->result();
     }
 
+
     function del_account($a_id)
     {
         $this->db->delete('booth',array('a_id'=>$a_id));

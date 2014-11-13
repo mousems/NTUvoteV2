@@ -25,7 +25,7 @@ class Admin extends CI_Controller {
 
 		$this->load->library(array('user'));
 
-		if (!$this->user->valid_session())
+		if (!$this->user->valid_session('admin'))
 		{
 			redirect('login/logout', 'location');
 		}

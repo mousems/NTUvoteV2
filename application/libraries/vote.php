@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class User {
+class Vote {
 	private $db;
 
 	function __construct()
@@ -17,8 +17,7 @@ class User {
 	}
 
 
-	// logintype = {all,admin,station,vote}
-	public function valid_session($logintype = "all"){
+	public function valid_session(){
 		if ($this->CI->session->userdata('logintype')==FALSE) {
 			return FALSE;
 		}else{
@@ -30,12 +29,7 @@ class User {
 					TRUE
 				) //login test
 			) {
-				if ($this->CI->session->userdata('logintype') == $logintype || $logintype == "all") {
-					return TRUE;
-				}else{
-					return FALSE;
-				}
-				
+				return TRUE;
 			}else{
 				return FALSE;
 			}
@@ -57,6 +51,7 @@ class User {
 				$query = $this->db->get();
 				$row = $query->row();
 				if ($query->num_rows()==0) {
+					log_message('debug' , "num_rows = 0");
 					return FALSE;
 				}
 
@@ -89,49 +84,7 @@ class User {
 
 				break;
 			case 'vote':
-				
-				$this->db->from('booth')->where('username',$username);
-				$query = $this->db->get();
-				$row = $query->row();
-				if ($query->num_rows()==0) {
-					return FALSE;
-				}
-
-
-		        $this->db->from('account')->where('a_id',$row->{'a_id'});
-		        $query2 = $this->db->get();
-		        if ($query2->num_rows()>0) {
-		        	$booth_name = $query2->row(1)->{'name'};
-		        }
-		        
-
-				if ($hashed) {
-					
-					if ($row->{'password'} == md5($password.$username)) {
-						$this->CI->session->set_userdata('booth_name' , $booth_name);
-						$this->CI->session->set_userdata('logintype' , "vote");
-						$this->CI->session->set_userdata('username' , $username);
-						$this->CI->session->set_userdata('passen' , $password);
-						return TRUE;
-					}else{
-						log_message('debug' , "password not match , hashed=T");
-						return FALSE;
-					}
-
-
-				}else{
-					if ($row->{'password'} == md5(md5($password).$username)) {
-						$this->CI->session->set_userdata('booth_name' , "booth_name");
-						$this->CI->session->set_userdata('logintype' , "vote");
-						$this->CI->session->set_userdata('username' , $username);
-						$this->CI->session->set_userdata('passen' , md5($password));
-						return TRUE;
-					}else{
-						log_message('debug' , $row->{'password'}."password not match , hashed=F");
-						return FALSE;
-					}
-
-				}
+				# code...
 				break;
 			
 			default:
