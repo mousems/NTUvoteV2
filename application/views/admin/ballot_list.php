@@ -61,12 +61,28 @@
           <h1 class="page-header"><?=str_replace(">>", "" ,$sider_array[$pageid]);?></h1>
           <p>此處可新增票別，並設定對應授權碼之前綴字串。若要設定票別對應的票種，請點選編輯關連。</p>
 
+          <h2 class="sub-header">產生授權碼</h2>
           <div class="row placeholders">
+            <div class="row col-sm-5">
+              <span class="label label-danger">小心</span>此功能將會覆蓋原本的授權碼<br />
+              <form class="form-signin" role="form" action="<?=base_url('admin/authcode_gen');?>" method="POST">
+                票別各別數量：<select id="count" name="count">
+                    <option value="100" selected>100</option>
+                    <option value="1000">1000</option>
+                    <option value="2000">2000</option>
+                </select>
+                <button class="btn btn-lg btn-primary" type="submit">產生</button>
+              </form>
+            </div>
           </div>
+          
 
           <h2 class="sub-header">票別清單</h2>
-          <div class="table-responsive">
-            <?=$ballot_list_table;?>
+          <div class="row placeholders">
+            
+            <div class="table-responsive">
+              <?=$ballot_list_table;?>
+            </div>
           </div>
         </div>
       </div>

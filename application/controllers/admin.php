@@ -765,6 +765,23 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/'.$pageid , $data);
 	}
 
+	public function authcode_gen(){
+		$this->load->model('vote_model');
+
+		$authcode = $this->vote_model->generate_authcode($this->input->post("count"));
+
+
+
+		header('Content-type: text/csv');
+		header('Content-Disposition: attachment; filename="authcode.csv"');
+
+		foreach ($authcode as $key => $value) {
+			echo $value->{'plain'}."\n";
+		}
+
+
+	}
+
 	private function generateSiderArray($id){
 		$id_mapping = array(
 						'dashboard' => "Dashboard",

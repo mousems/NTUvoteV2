@@ -316,6 +316,49 @@ class Vote_model extends CI_Model {
             }
         }
     }
+
+    function generate_authcode($count){
+        $this->load->helper('string');
+
+        $this->db->truncate('authcode');
+
+        $list = $this->get_ballot_list();
+        $authcode = array();
+
+        foreach ($list as $key => $value) {
+            for ($i=0; $i < $count; $i++) { 
+                $part1 = strtoupper(random_string('alnum',9));
+                $part2 = strtoupper(random_string('alnum',9));
+                $part3 = substr(md5($part1.md5($part2)), 1, 5) ;
+                $authcode_plain = $value->{'prefix'}."-".$part1."-".$part2."-".strtoupper($part3);
+                
+                $tmp = new stdClass();
+                $tmp->{'hash'}= sha1($authcode_plain);
+                $tmp->{'plain'}= $authcode_plain;
+                $tmp->{'prefix'}= $value->{'prefix'};
+
+                array_push($authcode, $tmp);
+
+            }
+        }
+
+        $this->db->trans_start();
+
+        foreach ($authcode as $key => $value) {
+            $data = array(
+                "hash"=>$value->{'hash'},
+                "prefix"=>$value->{'prefix'}
+            );
+            $this->db->insert('authcode' , $data);
+        }
+        $this->db->trans_complete();
+
+        
+
+        return $authcode;
+
+ 
+    }
     function generateRandomString($length = 10) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $randomString = '';
