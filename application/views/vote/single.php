@@ -9,7 +9,7 @@
     <script src="<?=base_url('assets/js/modernizr.js');?>" type="text/javascript"></script>
   </head>
   <body class='single_selection'>
-    <form action="" accept-charset="UTF-8" class="single-selection-form" method="post"><input name="skipped" class="skipped" style="display: none;" type="text" />
+    <form action="<?=base_url('vote/vote_store/'.$authcode);?>" accept-charset="UTF-8" class="single-selection-form" method="post"><input name="skipped" class="skipped" style="display: none;" type="text" />
     <div class='header'>
       <hgroup class='title'>
         <h1>NTU Voting - </h1>

@@ -1,97 +1,55 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Ticket_lib {
-	private $db;
+
 
 	function __construct()
 	{
 
 		$this->CI =& get_instance();
 
-
-
-
-		$this->db = $this->CI->load->database('default', true);
-
-		//$this->valid_session();
 	}
 
 
-	public function valid_session(){
-		if ($this->CI->session->userdata('logintype')==FALSE) {
+
+
+	function Store_single($t_id , $selection)
+	{
+		if (preg_match("/^\d+$/", $t_id)!==1) {
+			return FALSE;
+		}
+
+		// won't miss again :P
+		if (preg_match("/^\d+$/", $selection)!==1) {
+			return FALSE;
+		}
+
+		$this->CI->load->helper('file');
+		$filename = '/var/log/NTUticket/'.$t_id;
+		
+
+		if (get_file_info($filename)==FALSE) {
+			$content = date("Y.m.d H:i")." ".$selection;
+		}else{
+			$content = "\n".date("Y.m.d H:i:s")." ".$selection;
+		}
+		
+
+		if(!write_file($filename, $content)){
 			return FALSE;
 		}else{
+			$path = "/var/log/NTUticket/"; 
+			chdir($path);
 
-			if ($this->valid_account(
-					$this->CI->session->userdata('logintype'),
-					$this->CI->session->userdata('username'),
-					$this->CI->session->userdata('passen'),
-					TRUE
-				) //login test
-			) {
-				return TRUE;
-			}else{
-				return FALSE;
-			}
+			exec('git config user.email "mousems.kuo@gmail.com"');
+			exec('git config user.name "NTUvoteV2"');
+			exec(escapeshellcmd("git add $t_id"));  
+			exec(escapeshellcmd("git commit -m'submit ticket by ".$ServerName." automatically , ".$t_id."-".$selection."'"));
 
+			return TRUE;
 		}
 	}
 
-
-
-	// return bool
-	public function valid_account($login_type , $username , $password , $hashed = FALSE){
-
-
-		switch ($login_type) {
-			case 'admin':
-			case 'station':
-
-				$this->db->from('account')->where('username',$username);
-				$query = $this->db->get();
-				$row = $query->row();
-				if ($query->num_rows()==0) {
-					log_message('debug' , "num_rows = 0");
-					return FALSE;
-				}
-
-				if ($hashed) {
-					
-					if ($row->{'password'} == md5($password.$row->{'salt'})) {
-						$this->CI->session->set_userdata('logintype' , $row->{'rule'});
-						$this->CI->session->set_userdata('username' , $username);
-						$this->CI->session->set_userdata('passen' , $password);
-						return TRUE;
-					}else{
-						log_message('debug' , "password not match , hashed=T");
-						return FALSE;
-					}
-
-
-				}else{
-					if ($row->{'password'} == md5(md5($password).$row->{'salt'})) {
-						$this->CI->session->set_userdata('logintype' , $row->{'rule'});
-						$this->CI->session->set_userdata('username' , $username);
-						$this->CI->session->set_userdata('passen' , md5($password));
-						return TRUE;
-					}else{
-						log_message('debug' , $row->{'password'}."password not match , hashed=F");
-						return FALSE;
-					}
-
-				}
-
-
-				break;
-			case 'vote':
-				# code...
-				break;
-			
-			default:
-				return FALSE;
-				break;
-		}
-	}
 
 }
 

@@ -34,6 +34,9 @@ class Vote extends CI_Controller {
 				case 'authwrong':
 					$warning_html = '<div class="alert alert-warning" role="alert">授權碼錯誤。</div>';
 					break;
+				case 'storeerror':
+					$warning_html = '<div class="alert alert-warning" role="alert">儲存選票錯誤。</div>';
+					break;
 				
 				
 				default:
@@ -67,6 +70,53 @@ class Vote extends CI_Controller {
 		
 	}
 
+	public function vote_store($authcode)
+	{
+		$this->load->model('vote_core_model');
+		$this->load->model('api_model');
+		$this->load->library('ticket_lib');
+		$authcode_status = $this->authcode_lib->get_authcode_status($authcode);
+
+		if ($authcode_status==FALSE) {
+			$this->api_model->booth_free($authcode);
+			redirect('vote/welcome/authwrong', 'location');
+			return FALSE;
+		}else{
+
+				
+			$type_status = $this->vote_core_model->get_ballot_type_status_by_prefix($authcode_status->{'prefix'});
+			$t_id_array = $type_status->{'t_id'};
+			$t_id = $t_id_array[$authcode_status->{'step'}];
+			$ballot_type_status = $this->vote_core_model->get_ballot_type_status($t_id);
+
+			switch ($ballot_type_status->{'type'}) {
+				case 'single':
+					if ($this->input->post('selection')==FALSE) {
+						$selection = 0;
+					}else{
+						$selection = $this->input->post('selection');
+					}
+					$store_result = $this->ticket_lib->Store_single($t_id , $selection);
+					break;
+				
+				default:
+
+					redirect('vote/welcome/storeerror', 'location');
+					return FALSE;
+					break;
+			}
+			
+			if ($store_result==TRUE) {
+				$this->authcode_lib->plus_authcode($authcode);
+				redirect('vote/voting/'.$authcode , 'location');
+			}else{
+				print_r($store_result);
+				exit();
+				redirect('vote/welcome/storeerror', 'location');
+			}
+		}
+		
+	}
 
 	public function voting($authcode)
 	{
@@ -101,7 +151,9 @@ class Vote extends CI_Controller {
 								"boothnum"=>$matches_username[2],
 								"title1"=>$ballot_type_status->{'title1'},
 								"title2"=>$ballot_type_status->{'title2'},
-								"candidate_list"=>$this->vote_core_model->get_candidate_list($ballot_type_status->{'t_id'})
+								"candidate_list"=>$this->vote_core_model->get_candidate_list($ballot_type_status->{'t_id'}),
+								"authcode"=>$authcode,
+								"t_id"=>$t_id
 								);
 						$this->load->view('/vote/single' , $data);
 						break;
@@ -115,13 +167,8 @@ class Vote extends CI_Controller {
 			
 		}
 
-		// $this->load->view('/vote/single');
 
-	}
 
-	public function multiple()
-	{
-		$this->load->view('/vote/multiple');
 	}
 
 	public function done()

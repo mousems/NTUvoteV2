@@ -43,7 +43,22 @@ class User {
 		}
 	}
 
-
+	public function update_lastseen($b_id)
+	{
+		$data = array(
+			"lastseen"=>date("U")
+		);
+		if (preg_match("/^\d+$/", $b_id)!==1) {
+			return FALSE;
+		}
+		$this->db->where('b_id',$b_id);
+		$this->db->update('booth',$data);
+		if ($this->db->affected_rows()>0) {
+			return TRUE;
+		}else{
+			return FALSE;
+		}
+	}
 
 	// return bool
 	public function valid_account($login_type , $username , $password , $hashed = FALSE){
@@ -97,19 +112,20 @@ class User {
 					return FALSE;
 				}
 
-
 		        $this->db->from('account')->where('a_id',$row->{'a_id'});
 		        $query2 = $this->db->get();
 		        if ($query2->num_rows()>0) {
 		        	$booth_name = $query2->row(1)->{'name'};
 		        }
 		        
+		        $this->update_lastseen($row->{'b_id'});
 
 				if ($hashed) {
 					
 					if ($row->{'password'} == md5($password.$username)) {
 						$this->CI->session->set_userdata('booth_name' , $booth_name);
 						$this->CI->session->set_userdata('logintype' , "vote");
+						$this->CI->session->set_userdata('b_id' , $row->{'b_id'});
 						$this->CI->session->set_userdata('username' , $username);
 						$this->CI->session->set_userdata('passen' , $password);
 						return TRUE;
@@ -123,6 +139,7 @@ class User {
 					if ($row->{'password'} == md5(md5($password).$username)) {
 						$this->CI->session->set_userdata('booth_name' , "booth_name");
 						$this->CI->session->set_userdata('logintype' , "vote");
+						$this->CI->session->set_userdata('b_id' , $row->{'b_id'});						
 						$this->CI->session->set_userdata('username' , $username);
 						$this->CI->session->set_userdata('passen' , md5($password));
 						return TRUE;

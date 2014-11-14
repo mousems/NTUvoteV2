@@ -59,6 +59,18 @@ class Authcode_lib {
         }
         
     }
+    function plus_authcode($authcode)
+    {
+    	$authcode_status = $this->get_authcode_status($authcode);
+        if ($authcode_status===FALSE) {
+            return FALSE;
+        }
 
-
+        $data = array(
+        	"step"=>$authcode_status->{'step'}+1
+        );
+        $this->db->where('hash',sha1($authcode));
+        $this->db->update('authcode',$data);
+		return True;        
+    }
 }

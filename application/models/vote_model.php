@@ -303,10 +303,10 @@ class Vote_model extends CI_Model {
 
         return $list;
     }
+
     function mapping_do($postvalue){
 
         $this->db->delete('ballot_map',array('l_id'=>$postvalue['l_id']));
-        print_r($postvalue);
         foreach ($postvalue as $key => $value) {
             if (preg_match("/(^\d+$)/", $key)===1) {
                 $data = array(
@@ -367,7 +367,7 @@ class Vote_model extends CI_Model {
             $randomString .= $characters[rand(0, strlen($characters) - 1)];
         }
     return $randomString;
-}
+    }
 
 
 }
