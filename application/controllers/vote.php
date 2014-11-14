@@ -89,6 +89,11 @@ class Vote extends CI_Controller {
 			$t_id = $t_id_array[$authcode_status->{'step'}];
 			$ballot_type_status = $this->vote_core_model->get_ballot_type_status($t_id);
 
+			if ($this->input->post("skipped")==="true") {
+				$this->authcode_lib->plus_authcode($authcode);
+				redirect('vote/voting/'.$authcode , 'location');
+				return TRUE;
+			}
 			switch ($ballot_type_status->{'type'}) {
 				case 'single':
 					if ($this->input->post('selection')==FALSE) {
@@ -110,8 +115,6 @@ class Vote extends CI_Controller {
 				$this->authcode_lib->plus_authcode($authcode);
 				redirect('vote/voting/'.$authcode , 'location');
 			}else{
-				print_r($store_result);
-				exit();
 				redirect('vote/welcome/storeerror', 'location');
 			}
 		}
