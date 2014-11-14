@@ -71,13 +71,15 @@ class Vote extends CI_Controller {
 	public function voting($authcode)
 	{
 		$this->load->model('vote_core_model');
-		$authcode_status = $this->vote_core_model->get_authcode_status($authcode);
+		$this->load->model('api_model');
+		$authcode_status = $this->authcode_lib->get_authcode_status($authcode);
 
 		if ($authcode_status==FALSE) {
 			redirect('vote/welcome/authwrong', 'location');
 		}else{
 			$type_status = $this->vote_core_model->get_ballot_type_status_by_prefix($authcode_status->{'prefix'});
 			if ($authcode_status->{'step'}>=$type_status->{'count'}) {
+				$this->api_model->booth_free($authcode);
 				redirect('vote/done', 'location');			
 			}else{
 

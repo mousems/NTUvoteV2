@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Vote {
+class Ticket_lib {
 	private $db;
 
 	function __construct()
