@@ -23,10 +23,10 @@
       <div class="col-sm-8">
         <?=$warning_html;?>    
 
-        <h1>NTU Voting - <?=$boothname;?> - <?=$boothnum;?>號機</h1>
-        <h2>請閱讀以下說明：</h2>
+        <h1><?=$title;?></h1>
+        <h3><?=$boothname;?> - <?=$boothnum;?>號機</h3>
         <p>使用前請先進行身份驗證，本系統將依照身份別依序指派投票選票。</p>
-        <p>除了有效票、無效票外，也可以選擇跳過。</p>
+        <p>除了有效票、無效票外，亦可跳過。</p>
 
         <form class="form-signin" role="form" action="<?=base_url('vote/vote_do');?>" method="POST">
           <button class="btn btn-lg btn-primary btn-block" type="submit">開始 Start</button>

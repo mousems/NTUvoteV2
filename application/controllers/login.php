@@ -41,7 +41,7 @@ class Login extends CI_Controller {
 					break;
 			}
 		}else{
-			$this->load->view('login');
+			$this->load->view('login' , array("title"=>$this->config_lib->Get_Config('title')));
 		}
 	}
 
