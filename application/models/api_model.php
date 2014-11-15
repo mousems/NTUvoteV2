@@ -120,6 +120,13 @@ class Api_model extends CI_Model {
 
         return TRUE;
     }
+    function get_station_list()
+    {
+        $this->db->from('account')->where('rule','station');
+        $query = $this->db->get();
+        return $query->result();
+
+    }
 }
 
 ?>

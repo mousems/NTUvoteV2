@@ -109,6 +109,55 @@ class Api extends CI_Controller {
 
 	}
 
+	public function status($param)
+	{
+		$this->load->model("api_model");
+		switch ($param) {
+			case 'booth':
+
+				$check = $this->preg_match_every(
+							array(
+									"/^[A-Za-z0-9]{30}$/"							
+								),	
+							array(
+									$this->input->post("apikey")
+								)
+				);
+				if (!$check) {
+					echo json_encode(array("status"=>"error" , "message"=>"param miss or wrong format"));
+					return FALSE;
+				}
+
+
+				$station_list = $this->api_model->get_station_list();
+				$result = array();
+				foreach ($station_list as $key => $value) {
+					$tmp = new stdClass();
+					$tmp->{'a_id'} = $value->{'a_id'};
+					$tmp->{'name'} = $value->{'name'};
+					$tmp->{'tablet_count'} = $value->{'boothcount'};
+					array_push($result, $tmp);
+				}
+				echo json_encode($result);
+				break;
+			case 'ping':
+
+				break;
+
+			case 'tablet_status':
+
+				break;
+
+			default:
+				# code...
+				break;
+		}
+
+	}
+	private function status_booth()
+	{
+
+	}
 	public function multiple()
 	{
 		$this->load->view('/vote/multiple');
