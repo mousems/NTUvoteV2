@@ -1,22 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Admin extends CI_Controller {
+/**
+* MIT License (MIT)
+* Copyright (c) 2014 MouseMs <mousems.kuo@gmail.com>
+* http://opensource.org/licenses/MIT
+* https://github.com/mousems/NTUVoteV2
+**/
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -  
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in 
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see http://codeigniter.com/user_guide/general/urls.html
-	 */
+class Admin extends CI_Controller {
 
 	function __construct()
 	{

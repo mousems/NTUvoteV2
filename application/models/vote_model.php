@@ -1,5 +1,12 @@
 <?php
 class Vote_model extends CI_Model {
+    /**
+    * MIT License (MIT)
+    * Copyright (c) 2014 MouseMs <mousems.kuo@gmail.com>
+    * http://opensource.org/licenses/MIT
+    * https://github.com/mousems/NTUVoteV2
+    **/
+    
 
     function __construct()
     {

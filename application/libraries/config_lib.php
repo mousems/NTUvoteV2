@@ -1,6 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Config_lib {
+	/**
+	* MIT License (MIT)
+	* Copyright (c) 2014 MouseMs <mousems.kuo@gmail.com>
+	* http://opensource.org/licenses/MIT
+	* https://github.com/mousems/NTUVoteV2
+	**/
+	
 
 	private $db;
 

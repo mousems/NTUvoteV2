@@ -2,6 +2,13 @@
 
 class Api extends CI_Controller {
 
+	/**
+	* MIT License (MIT)
+	* Copyright (c) 2014 MouseMs <mousems.kuo@gmail.com>
+	* http://opensource.org/licenses/MIT
+	* https://github.com/mousems/NTUVoteV2
+	**/
+	
 	public function index()
 	{
 		$tmp = new stdClass();
