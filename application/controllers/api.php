@@ -131,6 +131,10 @@ class Api extends CI_Controller {
 
 
 				$station_list = $this->api_model->get_station_list();
+				if (!$station_list) {
+					echo json_encode(array("status"=>"error" , "message"=>"DB error"));
+					return FALSE;
+				}
 				$result = array();
 				foreach ($station_list as $key => $value) {
 					$tmp = new stdClass();
@@ -160,30 +164,86 @@ class Api extends CI_Controller {
 					echo json_encode(array("status"=>"ok"));
 				}else{
 					echo json_encode(array("status"=>"error" , "message"=>"DB error"));
+					return FALSE;
+
 				}
 				break;
 
 			case 'tablet_status':
+				$check = $this->preg_match_every(
+							array(
+									"/^\d+$/",
+									"/^\d$/"
+								),	
+							array(
+									$this->input->post("a_id"),
+									$this->input->post("num")
+								)
+				);
+				if (!$check) {
+					echo json_encode(array("status"=>"error" , "message"=>"param miss or wrong format"));
+					return FALSE;
+				}
+				$result = $this->api_model->get_booth_status($this->input->post("a_id"),$this->input->post("num"));
+
+				if ($result===FALSE) {
+					echo json_encode(array("status"=>"error" , "message"=>"DB error"));
+					return FALSE;
+				}else{
+					echo json_encode(array("status"=>"ok","result"=>$result->{'status'},"b_id"=>$result->{'b_id'}));
+
+				}
+
 
 				break;
 
 			default:
-				# code...
+				echo json_encode(array("status"=>"error" , "message"=>"param missing"));
 				break;
 		}
 
 	}
-	private function status_booth()
-	{
 
-	}
-	public function multiple()
+	public function account($param)
 	{
-		$this->load->view('/vote/multiple');
-	}
+		$this->load->model("api_model");
+		$this->load->library('user');
+		switch ($param) {
+			case 'login':
 
-	public function done()
-	{
-		$this->load->view('/vote/done');
+				$check = $this->preg_match_every(
+							array(
+									"/^[A-Za-z0-9]{30}$/",
+									"/^.+$/",
+									"/^.+$/"						
+								),	
+							array(
+									$this->input->post("apikey"),
+									$this->input->post("username"),
+									$this->input->post("password")
+								)
+				);
+				if (!$check) {
+					echo json_encode(array("status"=>"error" , "message"=>"param miss or wrong format"));
+					return FALSE;
+				}
+
+
+
+				$result = $this->user->valid_account("station",$this->input->post("username"),$this->input->post("password"),FALSE,FALSE);
+
+				if ($result===FALSE) {
+					echo json_encode(array("status"=>"error" , "message"=>"auth fail"));
+					return FALSE;
+				}else{
+					echo json_encode(array("status"=>"ok" , "a_id"=>$result->{'a_id'} , "name"=>$result->{'name'}));
+
+				}
+				break;
+			
+			default:
+				echo json_encode(array("status"=>"error" , "message"=>"param missing"));
+				break;
+		}
 	}
 }

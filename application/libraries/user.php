@@ -61,7 +61,7 @@ class User {
 	}
 
 	// return bool
-	public function valid_account($login_type , $username , $password , $hashed = FALSE){
+	public function valid_account($login_type , $username , $password , $hashed = FALSE , $booleanreturn = TRUE){
 
 
 		switch ($login_type) {
@@ -78,10 +78,26 @@ class User {
 				if ($hashed) {
 					
 					if ($row->{'password'} == md5($password.$row->{'salt'})) {
-						$this->CI->session->set_userdata('logintype' , $row->{'rule'});
-						$this->CI->session->set_userdata('username' , $username);
-						$this->CI->session->set_userdata('passen' , $password);
-						return TRUE;
+						switch ($booleanreturn) {
+							case TRUE:
+								
+								$this->CI->session->set_userdata('logintype' , $row->{'rule'});
+								$this->CI->session->set_userdata('username' , $username);
+								$this->CI->session->set_userdata('passen' , $password);
+								return TRUE;
+
+								break;
+							case FALSE:
+								$tmp = new stdClass();
+								$tmp->{'a_id'} = $row->{'a_id'};
+								$tmp->{'name'} = $row->{'name'};
+								return $tmp;
+								
+								break;
+							default:
+								return FALSE;
+								break;
+						}
 					}else{
 						log_message('debug' , "password not match , hashed=T");
 						return FALSE;
@@ -90,10 +106,22 @@ class User {
 
 				}else{
 					if ($row->{'password'} == md5(md5($password).$row->{'salt'})) {
-						$this->CI->session->set_userdata('logintype' , $row->{'rule'});
-						$this->CI->session->set_userdata('username' , $username);
-						$this->CI->session->set_userdata('passen' , md5($password));
-						return TRUE;
+						switch ($booleanreturn) {
+							case TRUE:
+								$this->CI->session->set_userdata('logintype' , $row->{'rule'});
+								$this->CI->session->set_userdata('username' , $username);
+								$this->CI->session->set_userdata('passen' , md5($password));
+								return TRUE;
+							case FALSE:
+								$tmp = new stdClass();
+								$tmp->{'a_id'} = $row->{'a_id'};
+								$tmp->{'name'} = $row->{'name'};
+								return $tmp;
+								break;
+							default:
+								return FALSE;
+								break;
+						}
 					}else{
 						log_message('debug' , $row->{'password'}."password not match , hashed=F");
 						return FALSE;

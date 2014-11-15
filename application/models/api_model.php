@@ -127,6 +127,14 @@ class Api_model extends CI_Model {
         return $query->result();
 
     }
+
+    function get_booth_status($a_id , $num)
+    {
+        $this->db->from('booth')->where('a_id',$a_id)->where('num',$num);
+        $query = $this->db->get();
+        return $query->row(1);
+
+    }
 }
 
 ?>
