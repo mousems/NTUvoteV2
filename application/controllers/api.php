@@ -112,6 +112,7 @@ class Api extends CI_Controller {
 	public function status($param)
 	{
 		$this->load->model("api_model");
+		$this->load->library('user');
 		switch ($param) {
 			case 'booth':
 
@@ -138,10 +139,28 @@ class Api extends CI_Controller {
 					$tmp->{'tablet_count'} = $value->{'boothcount'};
 					array_push($result, $tmp);
 				}
-				echo json_encode($result);
+				echo json_encode(array("status"=>"ok" ,"list"=>$result));
 				break;
 			case 'ping':
+				$check = $this->preg_match_every(
+							array(
+									"/^\d+$/"							
+								),	
+							array(
+									$this->input->post("b_id")
+								)
+				);
+				if (!$check) {
+					echo json_encode(array("status"=>"error" , "message"=>"param miss or wrong format"));
+					return FALSE;
+				}
 
+				$return = $this->user->update_lastseen($this->input->post("b_id"));
+				if ($return) {
+					echo json_encode(array("status"=>"ok"));
+				}else{
+					echo json_encode(array("status"=>"error" , "message"=>"DB error"));
+				}
 				break;
 
 			case 'tablet_status':
