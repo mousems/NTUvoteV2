@@ -60,6 +60,17 @@ class Admin extends CI_Controller {
 		                    'table_close'         => '</table>'
 		              );
 
+		$result = $this->vote_model->get_booths_vote_group_count_list();
+
+		$vote_count_title = array();
+		$vote_count_value = array();
+		if ($result!==FALSE) {
+			foreach ($result as $key => $value) {
+				array_push($vote_count_title, $value->{'name'}.$value->{'num'}.'號機');
+				array_push($vote_count_value, (int)$value->{'count'});
+			}
+		}
+
 		$this->table->set_template($tmpl);
 
 		$table = array(array("地點","一號平版","二號平版","三號平版","四號平版"));
@@ -102,7 +113,9 @@ class Admin extends CI_Controller {
 		$data = array(
 					'sider_array'=>$this->generateSiderArray($pageid),
 					'pageid'=>$pageid,
-					'booth_table'=>$this->table->generate($table)
+					'booth_table'=>$this->table->generate($table),
+					'vote_count_title'=>$vote_count_title,
+					'vote_count_value'=>$vote_count_value
 					);
 		$this->load->view('admin/'.$pageid , $data);
 	}

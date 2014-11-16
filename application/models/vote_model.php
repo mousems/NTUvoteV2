@@ -375,6 +375,42 @@ class Vote_model extends CI_Model {
         }
     return $randomString;
     }
+    function get_booths_vote_group_count_list(){
+        
+        switch ($this->session->userdata('logintype')) {
+            case 'admin':
+                $this->db->select('account.name , booth.num,count(*) as count');
+                $this->db->from('authcode');
+                $this->db->join('booth','booth.b_id=authcode.b_id');
+                $this->db->join('account','booth.a_id=account.a_id');
+                $this->db->where('authcode.b_id !=',"");
+                $this->db->group_by('authcode.b_id');
+                $this->db->order_by('authcode.b_id','asc');
+                $query = $this->db->get();
+                break;
+            case 'station':
+                $this->db->select('account.name , booth.num,count(*) as count');
+                $this->db->from('authcode');
+                $this->db->join('booth','booth.b_id=authcode.b_id');
+                $this->db->join('account','booth.a_id=account.a_id');
+                $this->db->where('authcode.b_id !=',"");
+                $this->db->where('account.username',$this->session->userdata('username'));
+                $this->db->group_by('authcode.b_id');
+                $this->db->order_by('authcode.b_id','asc');
+                $query = $this->db->get();
+                break;
+            
+            default:
+                return FALSE;
+                break;
+        }
+        if ($query->num_rows()==0) {
+            return FALSE;
+        }else{
+            return $query->result();
+        }
+
+    }
 
 
 }

@@ -7,13 +7,7 @@ $(function () {
             text: '各票亭投票狀況'
         },
         xAxis: {
-            categories: [
-                '社科院',
-                '文學院',
-                '總圖',
-                '水源',
-                '男一'
-            ]
+            categories: vote_count_title
         },
         yAxis: {
             min: 0,
@@ -37,7 +31,7 @@ $(function () {
         },
         series: [{
             name: '票數',
-            data: [49, 71, 106, 129 , 144 ]
+            data: vote_count_value
 
         }]
     });

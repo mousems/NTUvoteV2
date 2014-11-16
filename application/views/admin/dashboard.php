@@ -75,6 +75,10 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript">
+      var vote_count_title = <?=json_encode($vote_count_title);?>;
+      var vote_count_value = <?=json_encode($vote_count_value);?>;
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="<?=base_url('assets/js/bootstrap.min.js');?>"></script>
     <script src="<?=base_url('assets/js/docs.min.js');?>"></script>
