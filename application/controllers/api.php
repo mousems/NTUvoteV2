@@ -109,14 +109,14 @@ class Api extends CI_Controller {
 				break;
 			
 			default:
-				echo json_encode(array("status"=>"error"));
+				echo json_encode(array("status"=>"error" , "message"=>"action missing"));
 				break;
 		}
 
 
 	}
 
-	public function status($param)
+	public function status($param="")
 	{
 		$this->load->model("api_model");
 		$this->load->library('user');
@@ -131,6 +131,12 @@ class Api extends CI_Controller {
 									$this->input->post("apikey")
 								)
 				);
+
+				//check apikey
+				if(!$this->api_model->vaild_apikey($this->input->post("apikey"))){
+					echo json_encode(array("status"=>"error" , "message"=>"apikey wrong"));
+					return FALSE;
+				}
 				if (!$check) {
 					echo json_encode(array("status"=>"error" , "message"=>"param miss or wrong format"));
 					return FALSE;
@@ -205,7 +211,26 @@ class Api extends CI_Controller {
 				break;
 
 			default:
-				echo json_encode(array("status"=>"error" , "message"=>"param missing"));
+
+				$check = $this->preg_match_every(
+							array(
+									"/^[A-Za-z0-9]{30}$/"
+								),	
+							array(
+									$this->input->post("apikey")
+								)
+				);
+
+				if (!$check) {
+					echo json_encode(array("status"=>"error" , "message"=>"param miss or wrong format"));
+					return FALSE;
+				}
+				//check apikey
+				if(!$this->api_model->vaild_apikey($this->input->post("apikey"))){
+					echo json_encode(array("status"=>"error" , "message"=>"apikey wrong"));
+					return FALSE;
+				}
+				echo json_encode(array("status"=>"ok","vote_range"=>array("start"=>0,"end"=>2147483647)));
 				break;
 		}
 
@@ -230,6 +255,12 @@ class Api extends CI_Controller {
 									$this->input->post("password")
 								)
 				);
+
+				//check apikey
+				if(!$this->api_model->vaild_apikey($this->input->post("apikey"))){
+					echo json_encode(array("status"=>"error" , "message"=>"apikey wrong"));
+					return FALSE;
+				}
 				if (!$check) {
 					echo json_encode(array("status"=>"error" , "message"=>"param miss or wrong format"));
 					return FALSE;
@@ -249,7 +280,7 @@ class Api extends CI_Controller {
 				break;
 			
 			default:
-				echo json_encode(array("status"=>"error" , "message"=>"param missing"));
+				echo json_encode(array("status"=>"error" , "message"=>"action missing"));
 				break;
 		}
 	}
