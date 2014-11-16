@@ -59,7 +59,7 @@ class Api_model extends CI_Model {
         }
 
 
-        $this->db->from('booth')->where('a_id' , $a_id)->where('status' , "free");
+        $this->db->from('booth')->where('a_id' , $a_id)->where('status' , "free")->where('lastseen >=' , date('U')-120);
         $query = $this->db->get();
         if ($query->num_rows()==0) {
             return FALSE;

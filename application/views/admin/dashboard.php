@@ -63,7 +63,7 @@
             <div id="container" style="min-width: 600px; height: 400px; margin: 0 auto"></div>
           </div>
           <h2 class="sub-header">票亭狀態</h2>
-          <p>離線：超過兩分鐘失聯稱為離線。投票中：可從後台使其離開投票狀態。</p>
+          <p>待命：投票任務可以被指派。 離線：超過兩分鐘失聯稱為離線。 投票中：票亭平版有被指派投票任務。</p>
           <div class="table-responsive">
                   <?=$booth_table;?>
 

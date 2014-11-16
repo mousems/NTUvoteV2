@@ -8,7 +8,7 @@ class Api extends CI_Controller {
 	* http://opensource.org/licenses/MIT
 	* https://github.com/mousems/NTUVoteV2
 	**/
-	
+
 	public function index()
 	{
 		$tmp = new stdClass();
@@ -91,7 +91,7 @@ class Api extends CI_Controller {
 					$free_booth_num = $this->api_model->get_free_booth($this->input->post("a_id"));
 
 					if ($free_booth_num==FALSE) {
-						echo json_encode(array("status"=>"error" , "message"=>"all booth tablet full"));
+						echo json_encode(array("status"=>"error" , "message"=>"there are no more online-booth-tablet"));
 						return FALSE;
 					}
 					
