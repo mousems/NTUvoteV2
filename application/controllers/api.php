@@ -58,12 +58,14 @@ class Api extends CI_Controller {
 					//check apikey
 					if(!$this->api_model->vaild_apikey($this->input->post("apikey"))){
 						echo json_encode(array("status"=>"error" , "message"=>"apikey wrong"));
+						http_response_code(400);
 						return FALSE;
 					}
 
 					//check a_id
 					if(!$this->api_model->vaild_a_id($this->input->post("a_id"))){
 						echo json_encode(array("status"=>"error" , "message"=>"a_id wrong"));
+						http_response_code(400);
 						return FALSE;
 					}
 
@@ -71,6 +73,7 @@ class Api extends CI_Controller {
 					$authcode_status = $this->authcode_lib->get_authcode_status($this->input->post("authcode"));
 					if ($authcode_status==FALSE) {
 						echo json_encode(array("status"=>"error" , "message"=>"authcode wrong"));
+						http_response_code(400);
 						return FALSE;
 					}
 
@@ -78,12 +81,14 @@ class Api extends CI_Controller {
 					//authcode b_id must be null
 					if ($authcode_status->{'b_id'}!="") {
 						echo json_encode(array("status"=>"error" , "message"=>"authcode step must 0"));
+						http_response_code(400);
 						return FALSE;
 					}
 
 					//authcode step must be 0
 					if ($authcode_status->{'step'}!=0) {
 						echo json_encode(array("status"=>"error" , "message"=>"authcode step must 0"));
+						http_response_code(400);
 						return FALSE;
 					}
 
@@ -92,6 +97,7 @@ class Api extends CI_Controller {
 
 					if ($free_booth_num==FALSE) {
 						echo json_encode(array("status"=>"error" , "message"=>"there are no more online-booth-tablet"));
+						http_response_code(400);
 						return FALSE;
 					}
 					
@@ -105,11 +111,13 @@ class Api extends CI_Controller {
 
 				}else{
 					echo json_encode(array("status"=>"error" , "message"=>"param miss or wrong format"));
+					http_response_code(400);
 				}
 				break;
 			
 			default:
 				echo json_encode(array("status"=>"error" , "message"=>"action missing"));
+				http_response_code(400);
 				break;
 		}
 
@@ -135,10 +143,12 @@ class Api extends CI_Controller {
 				//check apikey
 				if(!$this->api_model->vaild_apikey($this->input->post("apikey"))){
 					echo json_encode(array("status"=>"error" , "message"=>"apikey wrong"));
+					http_response_code(400);
 					return FALSE;
 				}
 				if (!$check) {
 					echo json_encode(array("status"=>"error" , "message"=>"param miss or wrong format"));
+					http_response_code(400);
 					return FALSE;
 				}
 
@@ -146,6 +156,7 @@ class Api extends CI_Controller {
 				$station_list = $this->api_model->get_station_list();
 				if (!$station_list) {
 					echo json_encode(array("status"=>"error" , "message"=>"DB error"));
+					http_response_code(400);
 					return FALSE;
 				}
 				$result = array();
@@ -169,6 +180,7 @@ class Api extends CI_Controller {
 				);
 				if (!$check) {
 					echo json_encode(array("status"=>"error" , "message"=>"param miss or wrong format"));
+					http_response_code(400);
 					return FALSE;
 				}
 
@@ -177,6 +189,7 @@ class Api extends CI_Controller {
 					echo json_encode(array("status"=>"ok"));
 				}else{
 					echo json_encode(array("status"=>"error" , "message"=>"DB error"));
+					http_response_code(400);
 					return FALSE;
 
 				}
@@ -195,12 +208,14 @@ class Api extends CI_Controller {
 				);
 				if (!$check) {
 					echo json_encode(array("status"=>"error" , "message"=>"param miss or wrong format"));
+					http_response_code(400);
 					return FALSE;
 				}
 				$result = $this->api_model->get_booth_status($this->input->post("a_id"),$this->input->post("num"));
 
 				if ($result===FALSE) {
 					echo json_encode(array("status"=>"error" , "message"=>"DB error"));
+					http_response_code(400);
 					return FALSE;
 				}else{
 					echo json_encode(array("status"=>"ok","result"=>$result->{'status'},"b_id"=>$result->{'b_id'}));
@@ -223,11 +238,13 @@ class Api extends CI_Controller {
 
 				if (!$check) {
 					echo json_encode(array("status"=>"error" , "message"=>"param miss or wrong format"));
+					http_response_code(400);
 					return FALSE;
 				}
 				//check apikey
 				if(!$this->api_model->vaild_apikey($this->input->post("apikey"))){
 					echo json_encode(array("status"=>"error" , "message"=>"apikey wrong"));
+					http_response_code(400);
 					return FALSE;
 				}
 				echo json_encode(array("status"=>"ok","vote_range"=>array("start"=>0,"end"=>2147483647)));
@@ -259,10 +276,12 @@ class Api extends CI_Controller {
 				//check apikey
 				if(!$this->api_model->vaild_apikey($this->input->post("apikey"))){
 					echo json_encode(array("status"=>"error" , "message"=>"apikey wrong"));
+					http_response_code(400);
 					return FALSE;
 				}
 				if (!$check) {
 					echo json_encode(array("status"=>"error" , "message"=>"param miss or wrong format"));
+					http_response_code(400);
 					return FALSE;
 				}
 
@@ -272,6 +291,7 @@ class Api extends CI_Controller {
 
 				if ($result===FALSE) {
 					echo json_encode(array("status"=>"error" , "message"=>"auth fail"));
+					http_response_code(400);
 					return FALSE;
 				}else{
 					echo json_encode(array("status"=>"ok" , "a_id"=>$result->{'a_id'} , "name"=>$result->{'name'}));
@@ -281,6 +301,7 @@ class Api extends CI_Controller {
 			
 			default:
 				echo json_encode(array("status"=>"error" , "message"=>"action missing"));
+				http_response_code(400);
 				break;
 		}
 	}
