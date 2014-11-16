@@ -42,7 +42,7 @@ class Ticket_lib {
 		}
 		
 
-		if(!write_file($filename, $content)){
+		if(!write_file($filename, $content,"a+")){
 			return FALSE;
 		}else{
 			$path = "/var/log/NTUticket/"; 
