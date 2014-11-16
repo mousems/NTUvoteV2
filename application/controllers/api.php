@@ -38,6 +38,8 @@ class Api extends CI_Controller {
 
 	public function vote($param)
 	{
+		$random_api_callid = $this->generateRandomString(12);
+		log_message('info', 'apilog:vote/'.$param.' '.$random_api_callid.' '.json_encode($this->input->post()));
 		$this->load->model("api_model");
 		switch ($param) {
 			case 'new':
@@ -57,14 +59,18 @@ class Api extends CI_Controller {
 				if ($check) {
 					//check apikey
 					if(!$this->api_model->vaild_apikey($this->input->post("apikey"))){
-						echo json_encode(array("status"=>"error" , "message"=>"apikey wrong"));
+						$response = json_encode(array("status"=>"error", "api_callid"=>$random_api_callid , "message"=>"apikey wrong"));
+						log_message('info', 'apilog:api response:'.$response);
+						echo $response;
 						http_response_code(400);
 						return FALSE;
 					}
 
 					//check a_id
 					if(!$this->api_model->vaild_a_id($this->input->post("a_id"))){
-						echo json_encode(array("status"=>"error" , "message"=>"a_id wrong"));
+						$response = json_encode(array("status"=>"error", "api_callid"=>$random_api_callid , "message"=>"a_id wrong"));
+						log_message('info', 'apilog:api response:'.$response);
+						echo $response;
 						http_response_code(400);
 						return FALSE;
 					}
@@ -72,7 +78,9 @@ class Api extends CI_Controller {
 					//check and get status of authcode
 					$authcode_status = $this->authcode_lib->get_authcode_status($this->input->post("authcode"));
 					if ($authcode_status==FALSE) {
-						echo json_encode(array("status"=>"error" , "message"=>"authcode wrong"));
+						$response = json_encode(array("status"=>"error", "api_callid"=>$random_api_callid , "message"=>"authcode wrong"));
+						log_message('info', 'apilog:api response:'.$response);
+						echo $response;
 						http_response_code(400);
 						return FALSE;
 					}
@@ -80,14 +88,18 @@ class Api extends CI_Controller {
 
 					//authcode b_id must be null
 					if ($authcode_status->{'b_id'}!="") {
-						echo json_encode(array("status"=>"error" , "message"=>"authcode step must 0"));
+						$response = json_encode(array("status"=>"error", "api_callid"=>$random_api_callid , "message"=>"authcode step must 0"));
+						log_message('info', 'apilog:api response:'.$response);
+						echo $response;
 						http_response_code(400);
 						return FALSE;
 					}
 
 					//authcode step must be 0
 					if ($authcode_status->{'step'}!=0) {
-						echo json_encode(array("status"=>"error" , "message"=>"authcode step must 0"));
+						$response = json_encode(array("status"=>"error", "api_callid"=>$random_api_callid , "message"=>"authcode step must 0"));
+						log_message('info', 'apilog:api response:'.$response);
+						echo $response;
 						http_response_code(400);
 						return FALSE;
 					}
@@ -96,7 +108,9 @@ class Api extends CI_Controller {
 					$free_booth_num = $this->api_model->get_free_booth($this->input->post("a_id"));
 
 					if ($free_booth_num==FALSE) {
-						echo json_encode(array("status"=>"error" , "message"=>"there are no more online-booth-tablet"));
+						$response = json_encode(array("status"=>"error", "api_callid"=>$random_api_callid , "message"=>"there are no more online-booth-tablet"));
+						log_message('info', 'apilog:api response:'.$response);
+						echo $response;
 						http_response_code(400);
 						return FALSE;
 					}
@@ -106,17 +120,23 @@ class Api extends CI_Controller {
 					$this->api_model->map_authcode_booth($this->input->post("a_id") ,$free_booth_num,$this->input->post("authcode"));
 
 					
-					echo json_encode(array("status"=>"ok" , "num"=>$free_booth_num));
+					$response = json_encode(array("status"=>"ok", "api_callid"=>$random_api_callid , "num"=>$free_booth_num));
+					log_message('info', 'apilog:api response:'.$response);
+					echo $response;
 					return TRUE;
 
 				}else{
-					echo json_encode(array("status"=>"error" , "message"=>"param miss or wrong format"));
+					$response = json_encode(array("status"=>"error", "api_callid"=>$random_api_callid , "message"=>"param miss or wrong format"));
+					log_message('info', 'apilog:api response:'.$response);
+					echo $response;
 					http_response_code(400);
 				}
 				break;
 			
 			default:
-				echo json_encode(array("status"=>"error" , "message"=>"action missing"));
+				$response = json_encode(array("status"=>"error", "api_callid"=>$random_api_callid , "message"=>"action missing"));
+				log_message('info', 'apilog:api response:'.$response);
+				echo $response;
 				http_response_code(400);
 				break;
 		}
@@ -126,6 +146,9 @@ class Api extends CI_Controller {
 
 	public function status($param="")
 	{
+		$random_api_callid = $this->generateRandomString(12);
+
+		log_message('info', 'apilog:status/'.$param.' '.$random_api_callid.' '.json_encode($this->input->post()));
 		$this->load->model("api_model");
 		$this->load->library('user');
 		switch ($param) {
@@ -142,12 +165,16 @@ class Api extends CI_Controller {
 
 				//check apikey
 				if(!$this->api_model->vaild_apikey($this->input->post("apikey"))){
-					echo json_encode(array("status"=>"error" , "message"=>"apikey wrong"));
+					$response = json_encode(array("status"=>"error", "api_callid"=>$random_api_callid , "message"=>"apikey wrong"));
+					log_message('info', 'apilog:api response:'.$response);
+					echo $response;
 					http_response_code(400);
 					return FALSE;
 				}
 				if (!$check) {
-					echo json_encode(array("status"=>"error" , "message"=>"param miss or wrong format"));
+					$response = json_encode(array("status"=>"error", "api_callid"=>$random_api_callid , "message"=>"param miss or wrong format"));
+					log_message('info', 'apilog:api response:'.$response);
+					echo $response;
 					http_response_code(400);
 					return FALSE;
 				}
@@ -155,7 +182,9 @@ class Api extends CI_Controller {
 
 				$station_list = $this->api_model->get_station_list();
 				if (!$station_list) {
-					echo json_encode(array("status"=>"error" , "message"=>"DB error"));
+					$response = json_encode(array("status"=>"error", "api_callid"=>$random_api_callid , "message"=>"DB error"));
+					log_message('info', 'apilog:api response:'.$response);
+					echo $response;
 					http_response_code(400);
 					return FALSE;
 				}
@@ -167,7 +196,9 @@ class Api extends CI_Controller {
 					$tmp->{'tablet_count'} = $value->{'boothcount'};
 					array_push($result, $tmp);
 				}
-				echo json_encode(array("status"=>"ok" ,"list"=>$result));
+				$response = json_encode(array("status"=>"ok", "api_callid"=>$random_api_callid ,"list"=>$result));
+				log_message('info', 'apilog:api response:'.$response);
+				echo $response;
 				break;
 			case 'ping':
 				$check = $this->preg_match_every(
@@ -179,16 +210,22 @@ class Api extends CI_Controller {
 								)
 				);
 				if (!$check) {
-					echo json_encode(array("status"=>"error" , "message"=>"param miss or wrong format"));
+					$response = json_encode(array("status"=>"error", "api_callid"=>$random_api_callid , "message"=>"param miss or wrong format"));
+					log_message('info', 'apilog:api response:'.$response);
+					echo $response;
 					http_response_code(400);
 					return FALSE;
 				}
 
 				$return = $this->user->update_lastseen($this->input->post("b_id"));
 				if ($return) {
-					echo json_encode(array("status"=>"ok"));
+					$response = json_encode(array("status"=>"ok", "api_callid"=>$random_api_callid));
+					log_message('info', 'apilog:api response:'.$response);
+					echo $response;
 				}else{
-					echo json_encode(array("status"=>"error" , "message"=>"DB error"));
+					$response = json_encode(array("status"=>"error", "api_callid"=>$random_api_callid , "message"=>"DB error"));
+					log_message('info', 'apilog:api response:'.$response);
+					echo $response;
 					http_response_code(400);
 					return FALSE;
 
@@ -207,18 +244,24 @@ class Api extends CI_Controller {
 								)
 				);
 				if (!$check) {
-					echo json_encode(array("status"=>"error" , "message"=>"param miss or wrong format"));
+					$response = json_encode(array("status"=>"error", "api_callid"=>$random_api_callid , "message"=>"param miss or wrong format"));
+					log_message('info', 'apilog:api response:'.$response);
+					echo $response;
 					http_response_code(400);
 					return FALSE;
 				}
 				$result = $this->api_model->get_booth_status($this->input->post("a_id"),$this->input->post("num"));
 
 				if ($result===FALSE) {
-					echo json_encode(array("status"=>"error" , "message"=>"DB error"));
+					$response = json_encode(array("status"=>"error", "api_callid"=>$random_api_callid , "message"=>"DB error"));
+					log_message('info', 'apilog:api response:'.$response);
+					echo $response;
 					http_response_code(400);
 					return FALSE;
 				}else{
-					echo json_encode(array("status"=>"ok","result"=>$result->{'status'},"b_id"=>$result->{'b_id'}));
+					$response = json_encode(array("status"=>"ok", "api_callid"=>$random_api_callid,"result"=>$result->{'status'},"b_id"=>$result->{'b_id'}));
+					log_message('info', 'apilog:api response:'.$response);
+					echo $response;
 
 				}
 
@@ -237,17 +280,23 @@ class Api extends CI_Controller {
 				);
 
 				if (!$check) {
-					echo json_encode(array("status"=>"error" , "message"=>"param miss or wrong format"));
+					$response = json_encode(array("status"=>"error", "api_callid"=>$random_api_callid , "message"=>"param miss or wrong format"));
+					log_message('info', 'apilog:api response:'.$response);
+					echo $response;
 					http_response_code(400);
 					return FALSE;
 				}
 				//check apikey
 				if(!$this->api_model->vaild_apikey($this->input->post("apikey"))){
-					echo json_encode(array("status"=>"error" , "message"=>"apikey wrong"));
+					$response = json_encode(array("status"=>"error", "api_callid"=>$random_api_callid , "message"=>"apikey wrong"));
+					log_message('info', 'apilog:api response:'.$response);
+					echo $response;
 					http_response_code(400);
 					return FALSE;
 				}
-				echo json_encode(array("status"=>"ok","vote_range"=>array("start"=>0,"end"=>2147483647)));
+				$response = json_encode(array("status"=>"ok", "api_callid"=>$random_api_callid,"vote_range"=>array("start"=>0,"end"=>2147483647)));
+				log_message('info', 'apilog:api response:'.$response);
+				echo $response;
 				break;
 		}
 
@@ -255,6 +304,9 @@ class Api extends CI_Controller {
 
 	public function account($param)
 	{
+		$random_api_callid = $this->generateRandomString(12);
+
+		log_message('info', 'apilog:account/'.$param.' '.$random_api_callid.' '.json_encode($this->input->post()));
 		$this->load->model("api_model");
 		$this->load->library('user');
 		switch ($param) {
@@ -275,12 +327,16 @@ class Api extends CI_Controller {
 
 				//check apikey
 				if(!$this->api_model->vaild_apikey($this->input->post("apikey"))){
-					echo json_encode(array("status"=>"error" , "message"=>"apikey wrong"));
+					$response = json_encode(array("status"=>"error", "api_callid"=>$random_api_callid , "message"=>"apikey wrong"));
+					log_message('info', 'apilog:api response:'.$response);
+					echo $response;
 					http_response_code(400);
 					return FALSE;
 				}
 				if (!$check) {
-					echo json_encode(array("status"=>"error" , "message"=>"param miss or wrong format"));
+					$response = json_encode(array("status"=>"error", "api_callid"=>$random_api_callid , "message"=>"param miss or wrong format"));
+					log_message('info', 'apilog:api response:'.$response);
+					echo $response;
 					http_response_code(400);
 					return FALSE;
 				}
@@ -290,19 +346,34 @@ class Api extends CI_Controller {
 				$result = $this->user->valid_account("station",$this->input->post("username"),$this->input->post("password"),FALSE,FALSE);
 
 				if ($result===FALSE) {
-					echo json_encode(array("status"=>"error" , "message"=>"auth fail"));
+					$response = json_encode(array("status"=>"error", "api_callid"=>$random_api_callid , "message"=>"auth fail"));
+					log_message('info', 'apilog:api response:'.$response);
+					echo $response;
 					http_response_code(400);
 					return FALSE;
 				}else{
-					echo json_encode(array("status"=>"ok" , "a_id"=>$result->{'a_id'} , "name"=>$result->{'name'}));
+					$response = json_encode(array("status"=>"ok", "api_callid"=>$random_api_callid , "a_id"=>$result->{'a_id'} , "name"=>$result->{'name'}));
+					log_message('info', 'apilog:api response:'.$response);
+					echo $response;
 
 				}
 				break;
 			
 			default:
-				echo json_encode(array("status"=>"error" , "message"=>"action missing"));
+				$response = json_encode(array("status"=>"error", "api_callid"=>$random_api_callid , "message"=>"action missing"));
+				log_message('info', 'apilog:api response:'.$response);
+				echo $response;
 				http_response_code(400);
 				break;
 		}
 	}
+
+    function generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, strlen($characters) - 1)];
+        }
+    	return $randomString;
+    }
 }
