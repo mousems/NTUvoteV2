@@ -116,7 +116,7 @@ class Station extends CI_Controller {
 					break;
 
 				case 'free':
-					$html = '<span class="label label-success">待命中</span>';
+					$html = '<span class="label label-success">待命中</span>'.(date("U")-$lastseen).'秒前';
 					break;
 				
 				

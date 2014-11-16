@@ -36,7 +36,6 @@
 
     </div> <!-- /container -->
 
-
     <!-- Bootstrap core JavaScript
     ================================================== -->
 
@@ -44,5 +43,25 @@
     <script src="<?=base_url('assets/js/bootstrap.min.js');?>"></script>
     <script src="<?=base_url('assets/js/docs.min.js');?>"></script>
     <!-- Placed at the end of the document so the pages load faster -->
+
+
+    <!-- auto ping to server -->
+    <script type="text/javascript">
+
+      setInterval(function(){
+          $.ajax({ 
+            type:"POST",
+            url: "https://ntuvote.org/api/status/ping", 
+            data:{
+              b_id:'<?=$b_id;?>'
+            },
+            success: function(data){
+                console.log('ping:'+data.status);
+            }, 
+          dataType: "json"
+          });
+      }, 30000);
+
+    </script>
   </body>
 </html>

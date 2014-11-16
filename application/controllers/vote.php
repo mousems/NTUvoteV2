@@ -55,7 +55,8 @@ class Vote extends CI_Controller {
 					"boothname"=>$this->session->userdata('booth_name'),
 					"boothnum"=>$matches[2],
 					"warning_html"=>$warning_html,
-					"title"=>$this->config_lib->Get_Config('title')
+					"title"=>$this->config_lib->Get_Config('title'),
+					'b_id'=>$this->session->userdata('b_id')
 					);
 			$this->load->view('/vote/welcome' , $data);
 		}else{

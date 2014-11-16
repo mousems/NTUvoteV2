@@ -122,7 +122,7 @@ class Admin extends CI_Controller {
 
 	private function status_to_button($status,$a_id , $lastseen){
 		$html = "";
-		if (date("U") - $lastseen > 60) {
+		if (date("U") - $lastseen > 120) {
 			$html = '<span class="label label-danger">離線</span>';
 		}else{
 
@@ -132,7 +132,7 @@ class Admin extends CI_Controller {
 					break;
 
 				case 'free':
-					$html = '<span class="label label-success">待命中</span>';
+					$html = '<span class="label label-success">待命中</span>'.(date("U")-$lastseen).'秒前';
 					break;
 				
 				

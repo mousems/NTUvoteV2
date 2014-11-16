@@ -24,9 +24,9 @@
         <input type="username" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
         <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
         登入身份：<select id="logintype" name="logintype">
-            <option value="admin" selected>管理員</option>
+            <option value="vote" selected>票亭</option>
             <option value="station">投票所</option>
-            <option value="vote">票亭</option>
+            <option value="admin">管理員</option>
         </select>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
       </form>
