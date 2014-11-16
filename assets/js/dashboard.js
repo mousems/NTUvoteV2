@@ -12,13 +12,13 @@ $(function () {
         yAxis: {
             min: 0,
             title: {
-                text: '票數'
+                text: '使用人數'
             }
         },
         tooltip: {
             headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
             pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y} 票</b></td></tr>',
+                '<td style="padding:0"><b>{point.y} 次</b></td></tr>',
             footerFormat: '</table>',
             shared: true,
             useHTML: true
@@ -30,7 +30,7 @@ $(function () {
             }
         },
         series: [{
-            name: '票數',
+            name: '次數',
             data: vote_count_value
 
         }]
