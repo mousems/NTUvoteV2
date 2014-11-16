@@ -1,6 +1,4 @@
-(請寬容我使用中文，徵求英文好手協助英譯，謝謝)
-
-## 關於 NTUVoteV2
+## NTUVoteV2
 
 這是一個電子投票系統，將使用於臺灣大學103學年第1學期學代會選舉，前身是 NTUVote，改用 Codeigniter Framework 重構，並增加了 API 、管理後台等方便選委會編輯選舉。
 
@@ -10,7 +8,19 @@
 
 本系統將於 2014/11/17-18 進行假票真投六都市長。
 
+#### 平版投票介面
+
+![preview](https://dl.dropboxusercontent.com/s/5xth0ebcvb7hx0z/SC-VBm1E.png?dl=0)
 ![preview](https://dl.dropboxusercontent.com/s/66t2t1cwnwgqas7/SC-2Sr90.png?dl=0)
+![preview](https://dl.dropboxusercontent.com/s/rgce9xtw2d8ljqd/SC-e57FI.png?dl=0)
+
+#### 管理員介面
+
+![preview](https://dl.dropboxusercontent.com/s/xgdfd0ffpx86y16/SC-GHrWJ.png?dl=0)
+
+#### 票所後台
+
+![preview](https://dl.dropboxusercontent.com/s/sfyas1b324ks5sj/SC-kK8Ij.png?dl=0)
 
 ## 投票流程
 
