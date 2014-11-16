@@ -24,10 +24,18 @@
         <?=$warning_html;?>    
 
         <h1><?=$title;?></h1>
-        <h3><?=$boothname;?> - 票亭<?=$boothnum;?>號機</h3>
-        <p>使用前請先進行身份驗證，本系統將依照身份別依序指派投票選票。</p>
-        <p>除了有效票、無效票外，亦可跳過。</p>
 
+        <h3><?=$boothname;?> - 票亭<?=$boothnum;?>號機</h3>
+        <p>【不可取代的小事：臺大選舉季】假票真投──六都選舉大預測</p>
+        <p>選票將依序出現六都選票，除選投候選人外，亦可選擇跳過。</p>
+        <br />
+        <p>開票：11/18　19:00　@新生 502</p>
+        <br />
+        <p>-----</p>
+        <p>【103-1 學生代表大會學生代表選舉】</p>
+        <p>候選人登記時間：Nov 12-30</p>
+        <p>政見發表會時間：Dec 11 12</p>
+        <p>選舉人投票時間：Dec 19</p>
         <form class="form-signin" role="form" action="<?=base_url('vote/vote_do');?>" method="POST">
           <button class="btn btn-lg btn-primary btn-block" type="submit">開始 Start</button>
         </form>
