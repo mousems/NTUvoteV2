@@ -50,6 +50,16 @@
 
 https://github.com/mousems/NTUVoteV2_install
 
+## 開票
+
+若使用上述方法架設，選票會儲存於 /var/log/NTUticket
+
+請執行 /var/log/NTUticket/Result.sh
+開票原始碼：https://github.com/mousems/NTUVoteV2_install/blob/master/Result.sh
+如：cd /var/log/NTUticket && sh Result.sh
+
+便會顯示投票結果。
+
 
 ## License
 
