@@ -13,7 +13,7 @@
     <div class='header'>
       <hgroup class='title'>
         <h1><?=$title;?></h1>
-        <h2><?=$title1;?> <?=$title2;?> （<?=$boothname;?><?=$boothnum;?>號機） （step <?=$step+1;?> of <?=$count;?>）</h2>
+        <h2><?=$title1;?> <?=$title2;?> （票亭<?=$boothname;?><?=$boothnum;?>號機） （step <?=$step+1;?> of <?=$count;?>）</h2>
       </hgroup>
       <div class='actions two-actions'>
         <button class='button skip'>跳過 Skip</button>

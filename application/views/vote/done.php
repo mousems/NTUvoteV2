@@ -22,7 +22,7 @@
       </div>
       <div class="col-dm-3 col-sm-6">
         <h1><?=$title;?></h1>
-        <h2><?=$boothname;?><?=$boothnum;?>號機</h2>
+        <h2>票亭<?=$boothname;?><?=$boothnum;?>號機</h2>
         <h2>投票完成，謝謝您。</h2>
         <h2>Complete , Thank You.</h2>
 
