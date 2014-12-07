@@ -80,7 +80,7 @@ class Ticket_lib {
 			exec('git config user.email "mousems.kuo@gmail.com"');
 			exec('git config user.name "NTUvoteV2"');
 			exec(escapeshellcmd("git add $t_id"));  
-			exec(escapeshellcmd("git commit -m'submit ticket by ".$ServerName." automatically , ".$t_id));
+			exec(escapeshellcmd("git commit -m'submit ticket by ".$ServerName." automatically , ".$t_id."'"));
 
 			return TRUE;
 		}
