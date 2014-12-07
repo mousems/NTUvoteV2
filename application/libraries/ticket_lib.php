@@ -58,6 +58,34 @@ class Ticket_lib {
 	}
 
 
+	function Store_multiple($t_id , $vote_result)
+	{
+
+
+		
+		$this->CI->load->helper('file');
+		$filename = '/var/log/NTUticket/'.$t_id;
+		
+		foreach ($vote_result as $key => $value) {
+			$content.="\n".date("Y.m.d H:i:s")." ".$t_id."-".$value->{'num'}.":".$value->{'opinion'};
+		}
+
+
+		if(!write_file($filename, $content,"a+")){
+			return FALSE;
+		}else{
+			$path = "/var/log/NTUticket/"; 
+			chdir($path);
+
+			exec('git config user.email "mousems.kuo@gmail.com"');
+			exec('git config user.name "NTUvoteV2"');
+			exec(escapeshellcmd("git add $t_id"));  
+			exec(escapeshellcmd("git commit -m'submit ticket by ".$ServerName." automatically , ".$t_id));
+
+			return TRUE;
+		}
+	}
+
 }
 
 /* End of file welcome.php */

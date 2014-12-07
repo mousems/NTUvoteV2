@@ -350,7 +350,7 @@ class Admin extends CI_Controller {
 						$mapping_html .= '<span class="label label-primary">'.$value2->{'title1'}.'</span>';
 						break;
 					
-					case 'multi':
+					case 'multiple':
 						$mapping_html .= '<span class="label label-success">'.$value2->{'title1'}.'</span>';
 						break;
 					
@@ -471,7 +471,7 @@ class Admin extends CI_Controller {
 					$mapping_html = '<span class="label label-primary">多數決</span>';
 					break;
 				
-				case 'multi':
+				case 'multiple':
 					$mapping_html = '<span class="label label-success">正反決</span>';
 					break;
 					
@@ -523,7 +523,7 @@ class Admin extends CI_Controller {
 			$content = '<span class="label label-danger">錯誤</span>票種標題1不得為空';
 		}elseif($this->input->post('title2')==""){
 			$content = '<span class="label label-danger">錯誤</span>票種標題2不得為空';
-		}elseif($this->input->post('type')!="single" && $this->input->post('type')!="multi"){
+		}elseif($this->input->post('type')!="single" && $this->input->post('type')!="multiple"){
 			$content = '<span class="label label-danger">錯誤</span>投票類型錯誤';
 		}else{
 
@@ -593,7 +593,7 @@ class Admin extends CI_Controller {
 					$mapping_html = '<span class="label label-primary">'.$value->{'title1'}.'</span>';
 					break;
 				
-				case 'multi':
+				case 'multiple':
 					$mapping_html = '<span class="label label-success">'.$value->{'title1'}.'</span>';
 					break;
 					
@@ -730,7 +730,7 @@ class Admin extends CI_Controller {
 					$mapping_html .= '<span class="label label-primary">'.$value->{'title1'}.'</span></label><br />';
 					break;
 				
-				case 'multi':
+				case 'multiple':
 					$mapping_html .= '<span class="label label-success">'.$value->{'title1'}.'</span></label><br />';
 					break;
 					

@@ -113,8 +113,36 @@ class Vote extends CI_Controller {
 					$store_result = $this->ticket_lib->Store_single($t_id , $selection);
 					break;
 				
-				default:
+				case 'multiple':
+					$vote_result = array();
+					$candidate_list = $this->vote_core_model->get_candidate_list($t_id);
+					foreach ($candidate_list as $key => $value) {
+						$tmp = new stdClass;
+						$tmp->{'num'} = $value->{'num'};
 
+						switch ($this->input->post('opinion_to_'.$value->{'num'})) {
+							case '1':
+								$tmp->{'opinion'} = '1';
+								break;
+							
+							case '0':
+								$tmp->{'opinion'} = '0';
+								break;
+							
+							case '-1':
+								$tmp->{'opinion'} = '-1';
+								break;
+							
+							default:
+								$tmp->{'opinion'} = '0';
+								break;
+						}
+						array_push($vote_result, $tmp);
+					}
+
+					$store_result = $this->ticket_lib->Store_multiple($t_id , $vote_result);
+					break;
+				default:
 					redirect('vote/welcome/storeerror', 'location');
 					return FALSE;
 					break;
@@ -173,8 +201,21 @@ class Vote extends CI_Controller {
 								);
 						$this->load->view('/vote/single' , $data);
 						break;
-					case 'multi':
-						# code...
+					case 'multiple':
+						$data = array(
+								"boothname"=>$this->session->userdata('booth_name'),
+								"boothnum"=>$matches_username[2],
+								"title"=>$this->config_lib->Get_Config('title'),
+								"title1"=>$ballot_type_status->{'title1'},
+								"title2"=>$ballot_type_status->{'title2'},
+								"step"=>$authcode_status->{'step'},
+								"count"=>$type_status->{'count'},
+								"candidate_list"=>$this->vote_core_model->get_candidate_list($ballot_type_status->{'t_id'}),
+								"authcode"=>$authcode,
+								"t_id"=>$t_id
+
+								);
+						$this->load->view('/vote/multiple' , $data);
 						break;
 				}
 
