@@ -105,6 +105,7 @@ class Vote extends CI_Controller {
 			}
 			switch ($ballot_type_status->{'type'}) {
 				case 'single':
+				case 'many':
 					if ($this->input->post('selection')==FALSE) {
 						$selection = 0;
 					}else{
@@ -216,6 +217,22 @@ class Vote extends CI_Controller {
 
 								);
 						$this->load->view('/vote/multiple' , $data);
+						break;
+					case 'many':
+						$data = array(
+								"boothname"=>$this->session->userdata('booth_name'),
+								"boothnum"=>$matches_username[2],
+								"title"=>$this->config_lib->Get_Config('title'),
+								"title1"=>$ballot_type_status->{'title1'},
+								"title2"=>$ballot_type_status->{'title2'},
+								"step"=>$authcode_status->{'step'},
+								"count"=>$type_status->{'count'},
+								"candidate_list"=>$this->vote_core_model->get_candidate_list($ballot_type_status->{'t_id'}),
+								"authcode"=>$authcode,
+								"t_id"=>$t_id
+
+								);
+						$this->load->view('/vote/many' , $data);
 						break;
 				}
 

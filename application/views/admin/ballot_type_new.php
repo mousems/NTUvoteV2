@@ -68,6 +68,7 @@
               投票類型：<select id="type" name="type">
                   <option value="single" selected>多數決</option>
                   <option value="multiple">正反決</option>
+                  <option value="many">多數決無照片</option>
               </select>
               <button class="btn btn-lg btn-primary btn-block" type="submit">送出</button>
             </form>

@@ -340,7 +340,7 @@ class Admin extends CI_Controller {
 
 		$this->table->set_template($tmpl);
 
-		$table = array(array("票別名稱","授權碼前綴","對應票種","操作"));		
+		$table = array(array("票別名稱","授權碼前綴","對應票種".'<span class="label label-primary">多數決</span><span class="label label-info">多數決無照片</span><span class="label label-success">正反決</span>',"操作"));		
 
 		foreach ($query_result as $key => $value) {
 			$mapping_html = "";
@@ -349,7 +349,9 @@ class Admin extends CI_Controller {
 					case 'single':
 						$mapping_html .= '<span class="label label-primary">'.$value2->{'title1'}.'</span>';
 						break;
-					
+					case 'many':
+						$mapping_html .= '<span class="label label-info">'.$value2->{'title1'}.'</span>';
+						break;
 					case 'multiple':
 						$mapping_html .= '<span class="label label-success">'.$value2->{'title1'}.'</span>';
 						break;
@@ -471,6 +473,9 @@ class Admin extends CI_Controller {
 					$mapping_html = '<span class="label label-primary">多數決</span>';
 					break;
 				
+				case 'many':
+					$mapping_html = '<span class="label label-info">多數決無照片</span>';
+					break;
 				case 'multiple':
 					$mapping_html = '<span class="label label-success">正反決</span>';
 					break;
@@ -582,7 +587,7 @@ class Admin extends CI_Controller {
 
 		$this->table->set_template($tmpl);
 
-		$table = array(array("候選人票種","候選人編號","姓名","照片","操作"));		
+		$table = array(array("候選人票種".'<span class="label label-primary">多數決</span><span class="label label-info">多數決無照片</span><span class="label label-success">正反決</span>',"候選人編號","姓名","照片","操作"));		
 
 		foreach ($query_result as $key => $value) {
 
@@ -591,6 +596,9 @@ class Admin extends CI_Controller {
 			switch ($value->{'type'}) {
 				case 'single':
 					$mapping_html = '<span class="label label-primary">'.$value->{'title1'}.'</span>';
+					break;
+				case 'many':
+					$mapping_html = '<span class="label label-info">'.$value->{'title1'}.'</span>';
 					break;
 				
 				case 'multiple':
@@ -666,12 +674,14 @@ class Admin extends CI_Controller {
 	public function candidate_new_do()
 	{
 		$this->load->model('vote_model');
-
+		$this->load->model('vote_core_model');
+		$ballot_type_status = $this->vote_core_model->get_ballot_type_status($this->input->post('t_id'));
+		var_dump($ballot_type_status);
 		if($this->input->post('name')==""){
 			$content = '<span class="label label-danger">錯誤</span>候選人姓名不得為空';
 		}elseif($this->input->post('num')==""){
 			$content = '<span class="label label-danger">錯誤</span>候選人編號不得為空';
-		}elseif($this->input->post('img')==""){
+		}elseif($this->input->post('img')=="" && $ballot_type_status->{'type'}!='many'){
 			$content = '<span class="label label-danger">錯誤</span>候選人照片連結不得為空';
 		}else{
 
@@ -728,6 +738,9 @@ class Admin extends CI_Controller {
 			switch ($value->{'type'}) {
 				case 'single':
 					$mapping_html .= '<span class="label label-primary">'.$value->{'title1'}.'</span></label><br />';
+					break;
+				case 'many':
+					$mapping_html .= '<span class="label label-info">'.$value->{'title1'}.'</span></label><br />';
 					break;
 				
 				case 'multiple':
