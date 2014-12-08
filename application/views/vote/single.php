@@ -18,8 +18,6 @@
       <div class='actions two-actions'>
         <button class='button skip'>跳過 Skip</button>
         <input value="送出 Submit" class="action button" type="submit" />
-        <div class="notice">右邊還有喔 →</div>
-
       </div>
       <input name="selection" id="selection" type="hidden" />
     </div>
