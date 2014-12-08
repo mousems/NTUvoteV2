@@ -26,7 +26,7 @@
         <h2>投票完成，謝謝您。</h2>
         <h2>Complete , Thank You.</h2>
 
-        <form class="form-signin" role="form" action="<?=base_url('vote/welcome');?>" method="POST">
+        <form class="form-signin" role="form" action="<?=base_url($logouturl);?>" method="POST">
           <button class="btn btn-lg btn-primary btn-block" type="submit">登出 Logout</button>
         </form>
       </div>

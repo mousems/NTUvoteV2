@@ -15,8 +15,8 @@ class Vote extends CI_Controller {
 		parent::__construct();
 
 		$this->load->library(array('user'));
-
-		if (!$this->user->valid_session('vote'))
+		
+		if (!$this->user->valid_session('vote') && $this->uri->segment(2)!="remote")
 		{
 			redirect('login/logout', 'location');
 		}
@@ -27,6 +27,20 @@ class Vote extends CI_Controller {
 	{
 		$this->welcome();
 
+
+	}
+	public function remote($authcode="")
+	{
+		$this->load->library("config_lib");
+		$remote_account_pass = $this->config_lib->Get_Config("remote_pass");
+		$this->load->library('user');
+		
+		if(!$this->user->valid_account("vote","remote-1",$remote_account_pass,TRUE)){
+			redirect('login/logout', 'location');
+			return 0;
+		}
+
+		redirect('vote/voting/'.$authcode, 'location');
 
 	}
 	public function welcome($message="")
@@ -249,10 +263,17 @@ class Vote extends CI_Controller {
 	{
 		if(preg_match("/^(.*)-([1-4])$/", $this->session->userdata('username'), $matches) === 1 ){
 
+			if ($matches[1]=="remote") {
+				$logouturl="login/logout";
+			}else{
+				$logouturl="vote/welcome";
+			}
+
 			$data = array(
 					"boothname"=>$this->session->userdata('booth_name'),
 					"boothnum"=>$matches[2],
-					"title"=>$this->config_lib->Get_Config('title')
+					"title"=>$this->config_lib->Get_Config('title'),
+					"logouturl"=>$logouturl
 					);
 			$this->load->view('/vote/done' , $data);
 		}else{
