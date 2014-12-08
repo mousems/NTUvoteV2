@@ -21,14 +21,14 @@
       </div>
       <input name="selection" id="selection" type="hidden" />
     </div>
-    <div class='main'>
+    <div class='main' id='main'>
       <div class='votes'>
         <div class='vote'>
           <?php
 
             foreach ($candidate_list as $key => $value) {
               # code...
-            
+
 
           ?>
           <div class='candidate selection'>

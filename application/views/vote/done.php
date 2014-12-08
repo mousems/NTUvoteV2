@@ -16,8 +16,8 @@
   </head>
 
   <body>
-    
-    <div class="container">      
+
+    <div class="container">
       <div class="col-sm-3">
       </div>
       <div class="col-dm-3 col-sm-6">
