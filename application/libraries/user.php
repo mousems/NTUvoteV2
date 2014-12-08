@@ -118,6 +118,7 @@ class User {
 							case TRUE:
 								$this->CI->session->set_userdata('logintype' , $row->{'rule'});
 								$this->CI->session->set_userdata('username' , $username);
+								$this->CI->session->set_userdata('a_id' , $row->{'a_id'});
 								$this->CI->session->set_userdata('passen' , md5($password));
 								return TRUE;
 							case FALSE:
