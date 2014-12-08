@@ -42,5 +42,13 @@
     <script src="<?=base_url('assets/js/bootstrap.min.js');?>"></script>
     <script src="<?=base_url('assets/js/docs.min.js');?>"></script>
     <!-- Placed at the end of the document so the pages load faster -->
+
+    <script type="text/javascript">
+
+      setInterval(function(){
+        window.location.replace("https://ntuvote.org/vote/welcome");
+      }, 10000);
+
+    </script>
   </body>
 </html>
