@@ -89,7 +89,7 @@ class Station extends CI_Controller {
 				$tmp_row=array($value->{'name'});
 			}
 
-			array_push($tmp_row, $this->status_to_button($value->{'status'},$value->{'a_id'},$value->{'lastseen'}));
+			array_push($tmp_row, $this->status_to_button($value->{'status'},$value->{'a_id'},$value->{'lastseen'},$value->{'b_id'}));
 
 			$tmp_aid=$value->{'a_id'};
 		}
@@ -104,7 +104,7 @@ class Station extends CI_Controller {
 		$this->load->view('admin/'.$pageid , $data);
 	}
 
-	private function status_to_button($status,$a_id , $lastseen){
+	private function status_to_button($status,$a_id , $lastseen , $b_id){
 		$html = "";
 		if (date("U") - $lastseen > 60) {
 			$html = '<span class="label label-danger">離線</span>';
@@ -112,7 +112,7 @@ class Station extends CI_Controller {
 
 			switch ($status) {
 				case 'lock':
-					$html = '<span class="label label-warning">投票中</span><!--span class="label label-danger"><a href="/admin/account">KICK</a></span-->';
+					$html = '<span class="label label-warning">投票中</span><!--span class="label label-danger"><a href="/admin/kick/'.$b_id.'">KICK</a></span-->';
 					break;
 
 				case 'free':

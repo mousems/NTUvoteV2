@@ -16,7 +16,7 @@ class Vote_model extends CI_Model {
     
     function get_booth_status($a_id="")
     {
-        $this->db->select('booth.a_id ,num ,status , account.name , lastseen')->from('booth');
+        $this->db->select('booth.a_id ,booth.b_id ,num ,status , account.name , lastseen')->from('booth');
         $this->db->join('account' , 'account.a_id=booth.a_id');
         if ($a_id!="") {
             $this->db->where('a_id' ,$a_id);
@@ -412,6 +412,39 @@ class Vote_model extends CI_Model {
 
     }
 
+    function kick($b_id){
+        // will add 100 to authcode's step and free the booth
+
+        //get authcode from b_id
+        $this->db->from('booth')->where('b_id',$b_id);
+        $query = $this->db->get();
+        if (!isset($query->row(1)->{'authcode'})) {
+            log_message('error','kick booth not found');
+            return 0;
+        }
+        $authcode = $query->row(1)->{'authcode'};
+
+        //get step from authcode
+        $this->db->from('authcode')->where('hash',sha1($authcode));
+        $query = $this->db->get();
+        if (!isset($query->row(1)->{'step'})) {
+            log_message('error','kick booth not found');
+            return 0;
+        }
+        $step = $query->row(1)->{'step'};
+
+        //set step+=100
+        $data = array("step"=>$step+100);
+        $this->db->where('hash',sha1($authcode));
+        $this->db->update('authcode',$data);
+
+        //reset booth with free/authcode=null
+        $data = array("status"=>"free" , "authcode"=>"");
+        $this->db->where('b_id',$b_id);
+        $this->db->update('booth',$data);
+
+           
+    }
 
 }
 
