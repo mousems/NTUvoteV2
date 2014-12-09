@@ -458,6 +458,7 @@ class Vote_model extends CI_Model {
         $data = array("status"=>"free" , "authcode"=>"");
         $this->db->where('b_id',$b_id);
         $this->db->update('booth',$data);
+        log_message('debug' , 'kick authcode='.$authcode.' b_id='.$b_id);
 
            
     }
