@@ -19,7 +19,7 @@ class Vote_model extends CI_Model {
         $this->db->select('booth.a_id ,booth.b_id ,num ,status , account.name , lastseen')->from('booth');
         $this->db->join('account' , 'account.a_id=booth.a_id');
         if ($a_id!="") {
-            $this->db->where('a_id' ,$a_id);
+            $this->db->where('account.a_id' ,$a_id);
         }
         $query = $this->db->get();
         
