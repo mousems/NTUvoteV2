@@ -66,7 +66,7 @@ class Admin extends CI_Controller {
 		$vote_count_value = array();
 		if ($result!==FALSE) {
 			foreach ($result as $key => $value) {
-				array_push($vote_count_title, $value->{'name'}.$value->{'num'}.'號機');
+				array_push($vote_count_title, $value->{'name'});
 				array_push($vote_count_value, (int)$value->{'count'});
 			}
 		}

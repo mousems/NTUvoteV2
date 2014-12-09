@@ -384,8 +384,8 @@ class Vote_model extends CI_Model {
                 $this->db->join('booth','booth.b_id=authcode.b_id');
                 $this->db->join('account','booth.a_id=account.a_id');
                 $this->db->where('authcode.b_id !=',"");
-                $this->db->group_by('authcode.b_id');
-                $this->db->order_by('authcode.b_id','asc');
+                $this->db->group_by('account.a_id');
+                $this->db->order_by('account.a_id','asc');
                 $query = $this->db->get();
                 break;
             case 'station':
