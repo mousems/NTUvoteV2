@@ -412,6 +412,22 @@ class Vote_model extends CI_Model {
 
     }
 
+    function remote_vote_assign_bid($authcode){
+
+        $this->db->from('booth')->where('username','remote-1');
+        $query = $this->db->get();
+        if (!isset($query->row(1)->{'b_id'})) {
+            log_message('error','please create station account "remote" , with 1 booth.');
+            return 0;
+        }
+        $remote_b_id = $query->row(1)->{'b_id'};
+
+        $data = array("b_id"=>$remote_b_id);
+
+        $this->db->where('hash',sha1($authcode));
+        $this->db->update('authcode' , $data);
+    }
+
     function kick($b_id){
         // will add 100 to authcode's step and free the booth
 

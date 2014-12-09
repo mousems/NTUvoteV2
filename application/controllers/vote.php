@@ -39,7 +39,8 @@ class Vote extends CI_Controller {
 			redirect('login/logout', 'location');
 			return 0;
 		}
-
+		$this->load->model('vote_model');
+		$this->vote_model->remote_vote_assign_bid($authcode);
 		redirect('vote/voting/'.$authcode, 'location');
 
 	}

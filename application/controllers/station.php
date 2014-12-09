@@ -112,7 +112,7 @@ class Station extends CI_Controller {
 
 			switch ($status) {
 				case 'lock':
-					$html = '<span class="label label-warning">投票中</span><!--span class="label label-danger"><a href="/admin/kick/'.$b_id.'">KICK</a></span-->';
+					$html = '<span class="label label-warning">投票中</span><!--span class="label label-danger"><a href="/station/kick/'.$b_id.'">KICK</a></span-->';
 					break;
 
 				case 'free':
@@ -148,5 +148,12 @@ class Station extends CI_Controller {
 
 		return $id_mapping;
 
+	}
+
+	public function kick($b_id){
+		$this->load->model("vote_model");
+		$this->vote_model->kick($b_id);
+		redirect('station/','location');
+		
 	}
 }
