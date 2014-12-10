@@ -60,6 +60,10 @@ class Vote extends CI_Controller {
 					$warning_html = '<div class="alert alert-warning" role="alert">儲存選票錯誤。</div>';
 					break;
 				
+				case 'kicked':
+					$warning_html = '<div class="alert alert-warning" role="alert">您已不能繼續投票。</div>';
+					break;
+
 				
 				default:
 					$warning_html = '';
@@ -112,6 +116,11 @@ class Vote extends CI_Controller {
 			$t_id_array = $type_status->{'t_id'};
 			$t_id = $t_id_array[$authcode_status->{'step'}];
 			$ballot_type_status = $this->vote_core_model->get_ballot_type_status($t_id);
+
+			if ($authcode_status->{'step'}>=$type_status->{'count'}+50) {
+				$this->api_model->booth_free($authcode);
+				redirect('vote/welcome/kicked', 'location');	
+			}
 
 			if ($this->input->post("skipped")==="true") {
 				$this->authcode_lib->plus_authcode($authcode);
@@ -187,6 +196,9 @@ class Vote extends CI_Controller {
 			if ($authcode_status->{'step'}>=$type_status->{'count'}) {
 				$this->api_model->booth_free($authcode);
 				redirect('vote/done', 'location');			
+			}elseif($authcode_status->{'step'}>=$type_status->{'count'}+10){
+				$this->api_model->booth_free($authcode);
+				redirect('vote/welcome/kicked', 'location');	
 			}else{
 
 				

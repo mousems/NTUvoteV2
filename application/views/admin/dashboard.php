@@ -79,6 +79,13 @@
       var vote_count_title = <?=json_encode($vote_count_title);?>;
       var vote_count_value = <?=json_encode($vote_count_value);?>;
     </script>
+    <script type="text/javascript">
+      function kick (gotourl) {
+        if (confirm("確定是否踢除？")) {
+          window.location.replace(gotourl);
+        };
+      }
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="<?=base_url('assets/js/bootstrap.min.js');?>"></script>
     <script src="<?=base_url('assets/js/docs.min.js');?>"></script>
