@@ -4,9 +4,11 @@
 
 本系統由臺灣大學選委會外包 MouseMs 開發，並由台大開源社開發身份認證系統。
 
+簡介之簡報請參考：http://www.slideshare.net/mousems/ntuvotev2
 更技術的規格請參考：https://hackpad.com/NTUvoteV2-uK5hxqFocM0
 
-本系統將於 2014/11/17-18 進行假票真投六都市長。
+
+本系統亦於 2014/11/17-18 進行假票真投六都市長。
 
 #### 平版投票介面
 
