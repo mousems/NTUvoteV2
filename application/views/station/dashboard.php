@@ -42,7 +42,6 @@
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li class="active"><a href="'.base_url('station/dashboard').'">Dashboard</a></li>
-
           </ul>
         </div>
 
@@ -50,10 +49,10 @@
 
 
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header"><?=str_replace(">>", "" ,$sider_array[$pageid]);?></h1>
-          <p>此處可監看各票亭使用狀況</p>
+          <h1 class="page-header"><?=str_replace(">>", "" ,$sider_array[$pageid]);?> - <?=$location_name;?></h1>
+          <p>此處可監看各票亭使用狀況:</p>
           <div class="row placeholders">
-            <div id="container" style="min-width: 600px; height: 400px; margin: 0 auto"></div>
+            <div id="container" style="min-width: 600px; height: 275px; margin: 0 auto"></div>
           </div>
           <h2 class="sub-header">票亭狀態</h2>
           <p>離線：超過兩分鐘失聯稱為離線。投票中：可從後台使其離開投票狀態。</p>

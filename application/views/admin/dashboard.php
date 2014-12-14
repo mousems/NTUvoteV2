@@ -57,10 +57,10 @@
 
 
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header"><?=str_replace(">>", "" ,$sider_array[$pageid]);?></h1>
+          <h1 class="page-header"><?=str_replace(">>", "" ,$sider_array[$pageid]);?> - <?=$location_name;?></h1>
           <p>此處可監看各票亭使用狀況</p>
           <div class="row placeholders">
-            <div id="container" style="min-width: 600px; height: 400px; margin: 0 auto"></div>
+            <div id="container" style="min-width: 600px; height: 275px; margin: 0 auto"></div>
           </div>
           <h2 class="sub-header">票亭狀態</h2>
           <p>待命：投票任務可以被指派。 離線：超過兩分鐘失聯稱為離線。 投票中：票亭平版有被指派投票任務。</p>

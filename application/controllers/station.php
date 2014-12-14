@@ -87,6 +87,7 @@ class Station extends CI_Controller {
 					array_push($table, $tmp_row);
 				}
 				$tmp_row=array($value->{'name'});
+				$location_name=$value->{'name'};
 			}
 
 			array_push($tmp_row, $this->status_to_button($value->{'status'},$value->{'a_id'},$value->{'lastseen'},$value->{'b_id'}));
@@ -94,12 +95,14 @@ class Station extends CI_Controller {
 			$tmp_aid=$value->{'a_id'};
 		}
 
+		header('refresh: 5;url="station/dashboard"');
 		$data = array(
 					'sider_array'=>$this->generateSiderArray($pageid),
 					'pageid'=>$pageid,
 					'booth_table'=>$this->table->generate($table),
 					'vote_count_title'=>$vote_count_title,
-					'vote_count_value'=>$vote_count_value
+					'vote_count_value'=>$vote_count_value,
+					'location_name'=>$location_name
 					);
 		$this->load->view('admin/'.$pageid , $data);
 	}
