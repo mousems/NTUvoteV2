@@ -54,11 +54,10 @@
           <div class="row placeholders">
             <div id="container" style="min-width: 600px; height: 275px; margin: 0 auto"></div>
           </div>
-          <h2 class="sub-header">票亭狀態</h2>
+          <h2 class="sub-header">票亭狀態</h2><a href="'.base_url('login/autoreload').'"><?=$autoreload_title;?></a></li>
           <p>離線：超過兩分鐘失聯稱為離線。投票中：可從後台使其離開投票狀態。</p>
           <div class="table-responsive">
                   <?=$booth_table;?>
-
           </div>
         </div>
       </div>

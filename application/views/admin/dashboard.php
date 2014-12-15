@@ -58,7 +58,7 @@
 
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <h1 class="page-header"><?=str_replace(">>", "" ,$sider_array[$pageid]);?> - <?=$location_name;?></h1>
-          <p>此處可監看各票亭使用狀況</p>
+          <p>此處可監看各票亭使用狀況</p><a href="<?=base_url('login/autoreload');?>"><?=$autoreload_title;?></a></li>
           <div class="row placeholders">
             <div id="container" style="min-width: 600px; height: 275px; margin: 0 auto"></div>
           </div>

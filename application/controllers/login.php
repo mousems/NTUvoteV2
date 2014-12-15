@@ -43,6 +43,29 @@ class Login extends CI_Controller {
 		$this->session->sess_destroy();
 		redirect("/" , "location");
 	}
+	public function autoreload()
+	{
+		if ($this->session->userdata('autoreload')=="true") {
+			$this->session->set_userdata('autoreload',"false");
+		}else{
+			$this->session->set_userdata('autoreload',"true");
+		}
+		
+		switch ($this->session->userdata('logintype')) {
+			case 'admin':
+				redirect('admin', 'location');
+				break;
+			
+			case 'station':
+				redirect('station', 'location');
+				break;
+			default:
+				$this->logout();
+				break;
+		}
+					
+
+	}
 
 	public function login_do()
 	{

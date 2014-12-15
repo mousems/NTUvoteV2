@@ -94,15 +94,20 @@ class Station extends CI_Controller {
 
 			$tmp_aid=$value->{'a_id'};
 		}
-
-		header('refresh: 5;url="station/dashboard"');
+		if ($this->session->userdata('autoreload')=="true") {
+			header('refresh: 5;url="/station/dashboard"');
+			$autoreload_title = "關閉自動重整功能";
+		}else{
+			$autoreload_title = "啟動自動重整功能";
+		}
 		$data = array(
 					'sider_array'=>$this->generateSiderArray($pageid),
 					'pageid'=>$pageid,
 					'booth_table'=>$this->table->generate($table),
 					'vote_count_title'=>$vote_count_title,
 					'vote_count_value'=>$vote_count_value,
-					'location_name'=>$location_name
+					'location_name'=>$location_name,
+					'autoreload_title'=>$autoreload_title
 					);
 		$this->load->view('admin/'.$pageid , $data);
 	}
