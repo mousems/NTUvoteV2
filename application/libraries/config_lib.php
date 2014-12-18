@@ -41,6 +41,12 @@ class Config_lib {
 	}
 
 
+	function Set_Config($id,$value=null)
+	{
+		$data = array("value"=>$value);
+		$this->db->where("id",$id)->update("config",$data);
+
+	}
 }
 
 /* End of file welcome.php */

@@ -122,7 +122,8 @@ class Admin extends CI_Controller {
 					'vote_count_title'=>$vote_count_title,
 					'vote_count_value'=>$vote_count_value,
 					'location_name'=>"管理員",
-					'autoreload_title'=>$autoreload_title
+					'autoreload_title'=>$autoreload_title,
+					'announce_text'=>$this->config_lib->Get_COnfig("announce")
 					);
 		$this->load->view('admin/'.$pageid , $data);
 	}
@@ -784,11 +785,25 @@ class Admin extends CI_Controller {
 		$pageid = "setting";
 		$data = array(
 					'sider_array'=>$this->generateSiderArray($pageid),
-					'pageid'=>$pageid
+					'pageid'=>$pageid,
+					'announce_text'=>$this->config_lib->Get_Config("announce")
 					);
 		$this->load->view('admin/'.$pageid , $data);
 	}
 
+	public function setting_do($action)
+	{
+		switch ($action) {
+			case 'setannounce':
+				$remote_account_pass = $this->config_lib->Set_Config("announce",$this->input->post("announce"));
+				redirect("/admin/setting","location");
+				break;
+			
+			default:
+				# code...
+				break;
+		}
+	}
 	public function authcode_gen(){
 		$this->load->model('vote_model');
 

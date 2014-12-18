@@ -107,7 +107,8 @@ class Station extends CI_Controller {
 					'vote_count_title'=>$vote_count_title,
 					'vote_count_value'=>$vote_count_value,
 					'location_name'=>$location_name,
-					'autoreload_title'=>$autoreload_title
+					'autoreload_title'=>$autoreload_title,
+					'announce_text'=>$this->config_lib->Get_COnfig("announce")
 					);
 		$this->load->view('admin/'.$pageid , $data);
 	}

@@ -62,6 +62,10 @@
           <div class="row placeholders">
             <div id="container" style="min-width: 600px; height: 275px; margin: 0 auto"></div>
           </div>
+          <hr />
+          <h2>系統公告：</h2>
+          <h4><?=$announce_text;?></h4>
+          <hr />
           <h2 class="sub-header">票亭狀態</h2>
           <p>待命：投票任務可以被指派。 離線：超過兩分鐘失聯稱為離線。 投票中：票亭平版有被指派投票任務。</p>
           <div class="table-responsive">
