@@ -7,7 +7,6 @@ class Vote extends CI_Controller {
 	* http://opensource.org/licenses/MIT
 	* https://github.com/mousems/NTUVoteV2
 	**/
-	
 
 	function __construct()
 	{
@@ -15,7 +14,7 @@ class Vote extends CI_Controller {
 		parent::__construct();
 
 		$this->load->library(array('user'));
-		
+
 		if (!$this->user->valid_session('vote') && $this->uri->segment(2)!="remote")
 		{
 			redirect('login/logout', 'location');
@@ -46,7 +45,7 @@ class Vote extends CI_Controller {
 	}
 	public function welcome($message="")
 	{
-		
+
 		if(preg_match("/^(.*)-([1-4])$/", $this->session->userdata('username'), $matches) === 1 ){
 
 			switch ($message) {
@@ -59,12 +58,11 @@ class Vote extends CI_Controller {
 				case 'storeerror':
 					$warning_html = '<div class="alert alert-warning" role="alert">儲存選票錯誤。</div>';
 					break;
-				
 				case 'kicked':
 					$warning_html = '<div class="alert alert-warning" role="alert">您已不能繼續投票。</div>';
 					break;
 
-				
+
 				default:
 					$warning_html = '';
 					break;
@@ -95,7 +93,7 @@ class Vote extends CI_Controller {
 		}else{
 			redirect('vote/voting/'.$return, 'location');
 		}
-		
+
 	}
 
 	public function vote_store($authcode)
@@ -111,7 +109,6 @@ class Vote extends CI_Controller {
 			return FALSE;
 		}else{
 
-				
 			$type_status = $this->vote_core_model->get_ballot_type_status_by_prefix($authcode_status->{'prefix'});
 			$t_id_array = $type_status->{'t_id'};
 			$t_id = $t_id_array[$authcode_status->{'step'}];
@@ -119,7 +116,7 @@ class Vote extends CI_Controller {
 
 			if ($authcode_status->{'step'}>=$type_status->{'count'}+50) {
 				$this->api_model->booth_free($authcode);
-				redirect('vote/welcome/kicked', 'location');	
+				redirect('vote/welcome/kicked', 'location');
 			}
 
 			if ($this->input->post("skipped")==="true") {
@@ -137,7 +134,7 @@ class Vote extends CI_Controller {
 					}
 					$store_result = $this->ticket_lib->Store_single($t_id , $selection);
 					break;
-				
+
 				case 'multiple':
 					$vote_result = array();
 					$candidate_list = $this->vote_core_model->get_candidate_list($t_id);
@@ -149,15 +146,15 @@ class Vote extends CI_Controller {
 							case '1':
 								$tmp->{'opinion'} = '1';
 								break;
-							
+
 							case '0':
 								$tmp->{'opinion'} = '0';
 								break;
-							
+
 							case '-1':
 								$tmp->{'opinion'} = '-1';
 								break;
-							
+
 							default:
 								$tmp->{'opinion'} = '0';
 								break;
@@ -172,7 +169,7 @@ class Vote extends CI_Controller {
 					return FALSE;
 					break;
 			}
-			
+
 			if ($store_result==TRUE) {
 				$this->authcode_lib->plus_authcode($authcode);
 				redirect('vote/voting/'.$authcode , 'location');
@@ -180,7 +177,6 @@ class Vote extends CI_Controller {
 				redirect('vote/welcome/storeerror', 'location');
 			}
 		}
-		
 	}
 
 	public function voting($authcode)
@@ -195,25 +191,23 @@ class Vote extends CI_Controller {
 			$type_status = $this->vote_core_model->get_ballot_type_status_by_prefix($authcode_status->{'prefix'});
 			if ($authcode_status->{'step'}>=$type_status->{'count'}) {
 				$this->api_model->booth_free($authcode);
-				redirect('vote/done', 'location');			
+				redirect('vote/done', 'location');
 			}elseif($authcode_status->{'step'}>=$type_status->{'count'}+10){
 				$this->api_model->booth_free($authcode);
-				redirect('vote/welcome/kicked', 'location');	
+				redirect('vote/welcome/kicked', 'location');
 			}else{
 
-				
+
 				$t_id_array = $type_status->{'t_id'};
 				$t_id = $t_id_array[$authcode_status->{'step'}]; // next to vote
 
 				$ballot_type_status = $this->vote_core_model->get_ballot_type_status($t_id);
-				
 
 
 				preg_match("/^(.*)-([1-4])$/", $this->session->userdata('username'), $matches_username);
 
 				switch ($ballot_type_status->{'type'}) {
 					case 'single':
-						
 						$data = array(
 								"boothname"=>$this->session->userdata('booth_name'),
 								"boothnum"=>$matches_username[2],
@@ -262,14 +256,8 @@ class Vote extends CI_Controller {
 						$this->load->view('/vote/many' , $data);
 						break;
 				}
-
-
 			}
-			
 		}
-
-
-
 	}
 
 	public function done()
@@ -292,7 +280,5 @@ class Vote extends CI_Controller {
 		}else{
 			redirect('login/logout', 'location');
 		}
-
-		
 	}
 }
