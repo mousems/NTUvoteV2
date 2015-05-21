@@ -50,16 +50,16 @@ class Vote extends CI_Controller {
 
 			switch ($message) {
 				case 'authfail':
-					$warning_html = '<div class="alert alert-warning" role="alert">沒有接收到授權碼。</div>';
+					$warning_html = '<div class="alert alert-warning" role="alert">›]ÓÐ½ÓÊÕµ½ÊÚ™à´a¡£</div>';
 					break;
 				case 'authwrong':
-					$warning_html = '<div class="alert alert-warning" role="alert">授權碼錯誤。</div>';
+					$warning_html = '<div class="alert alert-warning" role="alert">ÊÚ™à´aåeÕ`¡£</div>';
 					break;
 				case 'storeerror':
-					$warning_html = '<div class="alert alert-warning" role="alert">儲存選票錯誤。</div>';
+					$warning_html = '<div class="alert alert-warning" role="alert">ƒ¦´æßxÆ±åeÕ`¡£</div>';
 					break;
 				case 'kicked':
-					$warning_html = '<div class="alert alert-warning" role="alert">您已不能繼續投票。</div>';
+					$warning_html = '<div class="alert alert-warning" role="alert">ÄúÒÑ²»ÄÜÀ^ÀmÍ¶Æ±¡£</div>';
 					break;
 
 
@@ -126,7 +126,8 @@ class Vote extends CI_Controller {
 			}
 			switch ($ballot_type_status->{'type'}) {
 				case 'single':
-				case 'many':
+				case 'many_single':
+
 					if ($this->input->post('selection')==FALSE) {
 						$selection = 0;
 					}else{
@@ -134,7 +135,23 @@ class Vote extends CI_Controller {
 					}
 					$store_result = $this->ticket_lib->Store_single($t_id , $selection);
 					break;
+				// case 'double':
+				// 	if ($this->input->post('selection')==FALSE) {
+				// 		$selection = 0;
+				// 	}else{
+				// 		$selection = $this->input->post('selection');
+				// 	}
+				// 	if (preg_match("/^\d+$/", $selection)===1) {
+				// 		$store_result = $this->ticket_lib->Store_single($t_id , $selection);
+				// 	}elseif(preg_match("/^(\d+),(\d+)$/", $selection, $select_preg)===1) {
 
+				// 		$store_result = $this->ticket_lib->Store_single($t_id , $select_preg[1]);
+				// 		$store_result = $this->ticket_lib->Store_single($t_id , $select_preg[2]);
+				// 	}
+					
+				// 	break;
+
+				case 'many_multiple':
 				case 'multiple':
 					$vote_result = array();
 					$candidate_list = $this->vote_core_model->get_candidate_list($t_id);
@@ -207,6 +224,31 @@ class Vote extends CI_Controller {
 				preg_match("/^(.*)-([1-4])$/", $this->session->userdata('username'), $matches_username);
 
 				switch ($ballot_type_status->{'type'}) {
+					case 'many_single':
+						$data = array(
+								"boothname"=>$this->session->userdata('booth_name'),
+								"boothnum"=>$matches_username[2],
+								"title"=>$this->config_lib->Get_Config('title'),
+								"title1"=>$ballot_type_status->{'title1'},
+								"title2"=>$ballot_type_status->{'title2'},
+								"step"=>$authcode_status->{'step'},
+								"count"=>$type_status->{'count'},
+								"candidate_list"=>$this->vote_core_model->get_candidate_list($ballot_type_status->{'t_id'}),
+								"authcode"=>$authcode,
+								"t_id"=>$t_id
+
+								); 
+						foreach ($data["candidate_list"] as $key => $value) {
+							$tmp = explode(",", $data["candidate_list"][$key]->{'name'});
+							$data["candidate_list"][$key]->{'name1'} = $tmp[0];
+							$data["candidate_list"][$key]->{'name2'} = $tmp[1];
+							$tmp = explode(",", $data["candidate_list"][$key]->{'img'});
+							$data["candidate_list"][$key]->{'img1'} = $tmp[0];
+							$data["candidate_list"][$key]->{'img2'} = $tmp[1];
+						}
+						$this->load->view('/vote/many_single' , $data);
+						break;
+
 					case 'single':
 						$data = array(
 								"boothname"=>$this->session->userdata('booth_name'),
@@ -222,6 +264,31 @@ class Vote extends CI_Controller {
 
 								);
 						$this->load->view('/vote/single' , $data);
+						break;
+					case 'many_multiple':
+						$data = array(
+								"boothname"=>$this->session->userdata('booth_name'),
+								"boothnum"=>$matches_username[2],
+								"title"=>$this->config_lib->Get_Config('title'),
+								"title1"=>$ballot_type_status->{'title1'},
+								"title2"=>$ballot_type_status->{'title2'},
+								"step"=>$authcode_status->{'step'},
+								"count"=>$type_status->{'count'},
+								"candidate_list"=>$this->vote_core_model->get_candidate_list($ballot_type_status->{'t_id'}),
+								"authcode"=>$authcode,
+								"t_id"=>$t_id
+
+								);
+
+						foreach ($data["candidate_list"] as $key => $value) {
+							$tmp = explode(",", $data["candidate_list"][$key]->{'name'});
+							$data["candidate_list"][$key]->{'name1'} = $tmp[0];
+							$data["candidate_list"][$key]->{'name2'} = $tmp[1];
+							$tmp = explode(",", $data["candidate_list"][$key]->{'img'});
+							$data["candidate_list"][$key]->{'img1'} = $tmp[0];
+							$data["candidate_list"][$key]->{'img2'} = $tmp[1];
+						}
+						$this->load->view('/vote/many_multiple' , $data);
 						break;
 					case 'multiple':
 						$data = array(

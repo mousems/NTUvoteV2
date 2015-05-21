@@ -1,0 +1,1 @@
+(function(){var a;a=document.getElementsByTagName("html")[0],window.chrome&&(a.className+=" chrome"),a.className+=Modernizr.touch?" touch":" non-touch",navigator.platform.toUpperCase().indexOf("MAC")>=0&&(a.className+=" mac"),navigator.platform.match(/(iPhone|iPod|iPad)/i)&&(a.className+=" ios"),navigator.appVersion.match(/(Win)/i)&&(a.className+=" windows")}).call(this);

@@ -1,0 +1,1 @@
+(function(){null==$.style&&($.style={}),$.style.layo_default=function(){return setTimeout(function(){return $("body").addClass("ready")},300)},$(window).load(function(){return $.style.layo_default()})}).call(this);

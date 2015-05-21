@@ -348,7 +348,7 @@ class Admin extends CI_Controller {
 
 		$this->table->set_template($tmpl);
 
-		$table = array(array("票別名稱","授權碼前綴","對應票種".'<span class="label label-primary">多數決</span><span class="label label-info">多數決無照片</span><span class="label label-success">正反決</span>',"操作"));		
+		$table = array(array("票別名稱","授權碼前綴","對應票種".'<span class="label label-primary">多數決</span><span class="label label-info">正副多數決</span><span class="label label-success">正反決</span><span class="label label-warning">正副正反決</span>',"操作"));		
 
 		foreach ($query_result as $key => $value) {
 			$mapping_html = "";
@@ -357,8 +357,11 @@ class Admin extends CI_Controller {
 					case 'single':
 						$mapping_html .= '<span class="label label-primary">'.$value2->{'title1'}.'</span>';
 						break;
-					case 'many':
+					case 'many_single':
 						$mapping_html .= '<span class="label label-info">'.$value2->{'title1'}.'</span>';
+						break;
+					case 'many_multiple':
+						$mapping_html .= '<span class="label label-warning">'.$value2->{'title1'}.'</span>';
 						break;
 					case 'multiple':
 						$mapping_html .= '<span class="label label-success">'.$value2->{'title1'}.'</span>';
@@ -481,8 +484,12 @@ class Admin extends CI_Controller {
 					$mapping_html = '<span class="label label-primary">多數決</span>';
 					break;
 				
-				case 'many':
-					$mapping_html = '<span class="label label-info">多數決無照片</span>';
+				case 'many_single':
+					$mapping_html = '<span class="label label-info">正副多數決</span>';
+					break;
+
+				case 'many_multiple':
+					$mapping_html = '<span class="label label-warning">正副正反決</span>';
 					break;
 				case 'multiple':
 					$mapping_html = '<span class="label label-success">正反決</span>';
@@ -595,7 +602,7 @@ class Admin extends CI_Controller {
 
 		$this->table->set_template($tmpl);
 
-		$table = array(array("候選人票種".'<span class="label label-primary">多數決</span><span class="label label-info">多數決無照片</span><span class="label label-success">正反決</span>',"候選人編號","姓名","照片","操作"));		
+		$table = array(array("候選人票種".'<span class="label label-primary">多數決</span><span class="label label-info">正副多數決</span><span class="label label-success">正反決</span><span class="label label-warning">正副正反決</span>',"候選人編號","姓名","照片","操作"));		
 
 		foreach ($query_result as $key => $value) {
 
@@ -603,23 +610,34 @@ class Admin extends CI_Controller {
 
 			switch ($value->{'type'}) {
 				case 'single':
-					$mapping_html = '<span class="label label-primary">'.$value->{'title1'}.'</span>';
+					$mapping_html = '<span class="label label-primary">'.$value->{'title1'}.'</span><span class="label label-default">多數決</span>';
 					break;
-				case 'many':
-					$mapping_html = '<span class="label label-info">'.$value->{'title1'}.'</span>';
+				case 'many_single':
+					$mapping_html = '<span class="label label-info">'.$value->{'title1'}.'</span><span class="label label-default">正副多數決</span>';
+					break;
+				case 'many_multiple':
+					$mapping_html = '<span class="label label-warning">'.$value->{'title1'}.'</span><span class="label label-default">正副正反決</span>';
 					break;
 				
 				case 'multiple':
-					$mapping_html = '<span class="label label-success">'.$value->{'title1'}.'</span>';
+					$mapping_html = '<span class="label label-success">'.$value->{'title1'}.'</span><span class="label label-default">正反決</span>';
 					break;
 					
+			}
+
+			if (preg_match("/(.+),(.+)/", $value->{'img'},$matches)===1) {
+				$img_html = "<img src='".$matches[1]."' height='150px'/>";
+				$img_html .= "<img src='".$matches[2]."' height='150px'/>";
+
+			}else{
+				$img_html = "<img src='".$value->{'img'}."' height='150px'/>";
 			}
 
 			array_push($table , array(
 										$mapping_html,
 										$value->{'num'}, 
 										$value->{'name'}, 
-										"<img src='".$value->{'img'}."' height='150px'/>", 
+										$img_html, 
 										'<button class="btn btn-danger" onclick="javascript:location.href=\''.base_url('/admin/candidate_del/'.$value->{'c_id'}).'\';">刪除</span>'
 									)
 			);
@@ -747,10 +765,12 @@ class Admin extends CI_Controller {
 				case 'single':
 					$mapping_html .= '<span class="label label-primary">'.$value->{'title1'}.'</span></label><br />';
 					break;
-				case 'many':
+				case 'many_single':
 					$mapping_html .= '<span class="label label-info">'.$value->{'title1'}.'</span></label><br />';
 					break;
-				
+				case 'many_multiple':
+					$mapping_html .= '<span class="label label-warning">'.$value->{'title1'}.'</span></label><br />';
+					break;
 				case 'multiple':
 					$mapping_html .= '<span class="label label-success">'.$value->{'title1'}.'</span></label><br />';
 					break;

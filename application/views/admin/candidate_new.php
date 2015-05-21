@@ -65,7 +65,7 @@
             <form class="form-signin" role="form" action="<?=base_url('admin/candidate_new_do');?>" method="POST">
               <input type="text" id="name" name="name" class="form-control" placeholder="候選人姓名" required>
               <input type="text" id="num" name="num" class="form-control" placeholder="候選人編號" required>
-              <input type="text" id="img" name="img" class="form-control" placeholder="候選人照片連結" required>
+              <input type="text" id="img" name="img" class="form-control" placeholder="候選人照片連結"  value='https://ntuvote.org/assets/img/cimg/noimg.jpg' required>
               票種選擇：<select id="t_id" name="t_id">
                   <?=$html_ballottype;?>
               </select>
