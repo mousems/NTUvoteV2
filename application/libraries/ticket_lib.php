@@ -28,7 +28,7 @@ class Ticket_lib {
 
 		// won't miss again :P
 		if (preg_match("/^\d+$/", $selection)!==1) {
-			return FALSE;
+			$selection = 0;
 		}
 
 		$this->CI->load->helper('file');

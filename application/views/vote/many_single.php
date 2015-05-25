@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<!--
+超額競選 多數決 每組候選人有兩人 分別為正副
+-->
 <html class='han-la' lang='zh-tw'>
   <head>
     <meta charset='utf-8'>
@@ -8,8 +11,8 @@
     <link href="<?=base_url('assets/css/all.css');?>" rel="stylesheet" type="text/css" />
     <script src="<?=base_url('assets/js/modernizr.js');?>" type="text/javascript"></script>
   </head>
-  <body class='candidate_with_two_people'>
-    <form action="<?=base_url('vote/vote_store/'.$authcode);?>" accept-charset="UTF-8" class="single-selection-form" method="post"><input name="skipped" class="skipped" style="display: none;" type="text" />
+  <body class='multiple_candidate_with_two_people'>
+    <form action="<?=base_url('vote/vote_store/'.$authcode);?>" accept-charset="UTF-8" class="multiple-selection-form choose-one" method="post"><input name="skipped" class="skipped" style="display: none;" type="text" />
     <div class='header'>
       <hgroup class='title'>
         <h1><?=$title1;?> <?=$title2;?></h1>
