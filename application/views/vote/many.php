@@ -16,13 +16,14 @@
         <h2><?=$title;?>（票亭<?=$boothname;?><?=$boothnum;?>號機） （step <?=$step+1;?> of <?=$count;?>）</h2>
       </hgroup>
       <div class='actions two-actions'>
-        <button class='button skip'>跳過 Skip</button>
-        <input value="送出 Submit" class="action button" type="submit" />
+        <button class='button skip'>不領票 Skip</button>
+        <input value="送出選票 Submit" class="action button" type="submit" />
 
       </div>
       <input name="selection" id="selection" type="hidden" />
     </div>
     <div class='main'>
+      <div class='scrolling-hint'>向右滑動來完成票選</div>
       <div class='votes many'>
         <div class='vote'>
           <?php
