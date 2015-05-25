@@ -14,7 +14,9 @@ class Testvote extends CI_Controller {
 
 		parent::__construct();
 
-
+		if (ENVIRONMENT=="production") {
+			redirect('login', 'location');
+		}
 	}
 
 	public function index()
@@ -42,6 +44,8 @@ class Testvote extends CI_Controller {
         if (isset($curl_result->{'message'})){
         	if($curl_result->{'message'}=="there are no more online-booth-tablet") {
         		$result_string = "沒有待命的平版可以用惹。";
+        	}else{
+        		$result_string = $curl_result->{'message'};
         	}
         }else{
         	$result_string = $ballotname."安安，請到".$curl_result->{'num'}."號平版";
