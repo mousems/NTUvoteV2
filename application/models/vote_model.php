@@ -149,7 +149,7 @@ class Vote_model extends CI_Model {
 
     public function get_ballot_list(){
 
-        $this->db->from('ballot_list');
+        $this->db->from('ballot_list')->order_by('prefix','asc');
         $query = $this->db->get();
         $ballot_list = $query->result();
 
