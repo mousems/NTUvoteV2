@@ -50,16 +50,16 @@ class Vote extends CI_Controller {
 
 			switch ($message) {
 				case 'authfail':
-					$warning_html = '<div class="alert alert-warning" role="alert">›]ÓÐ½ÓÊÕµ½ÊÚ™à´a¡£</div>';
+					$warning_html = '<div class="alert alert-warning" role="alert">沒有接收到授權碼。</div>';
 					break;
 				case 'authwrong':
-					$warning_html = '<div class="alert alert-warning" role="alert">ÊÚ™à´aåeÕ`¡£</div>';
+					$warning_html = '<div class="alert alert-warning" role="alert">授權碼錯誤。</div>';
 					break;
 				case 'storeerror':
-					$warning_html = '<div class="alert alert-warning" role="alert">ƒ¦´æßxÆ±åeÕ`¡£</div>';
+					$warning_html = '<div class="alert alert-warning" role="alert">儲存選票錯誤。</div>';
 					break;
 				case 'kicked':
-					$warning_html = '<div class="alert alert-warning" role="alert">ÄúÒÑ²»ÄÜÀ^ÀmÍ¶Æ±¡£</div>';
+					$warning_html = '<div class="alert alert-warning" role="alert">您已不能繼續投票。</div>';
 					break;
 
 
