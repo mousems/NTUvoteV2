@@ -45,7 +45,7 @@ class Api extends CI_Controller {
 			case 'new':
 				$check = $this->preg_match_every(
 							array(
-									"/^[A-Za-z0-9]{30}$/" , 
+									"/^[A-Za-z0-9]+$/" , 
 									"/^\d+$/" , 
 									"/^(.*)\-([A-Z0-9]{9})-([A-Z0-9]{9})-([A-Z0-9]{5})$/"
 							),	
@@ -156,7 +156,7 @@ class Api extends CI_Controller {
 
 				$check = $this->preg_match_every(
 							array(
-									"/^[A-Za-z0-9]{30}$/"							
+									"/^[A-Za-z0-9]+$/"							
 								),	
 							array(
 									$this->input->post("apikey")
@@ -272,7 +272,7 @@ class Api extends CI_Controller {
 
 				$check = $this->preg_match_every(
 							array(
-									"/^[A-Za-z0-9]{30}$/"
+									"/^[A-Za-z0-9]+$/"
 								),	
 							array(
 									$this->input->post("apikey")
@@ -314,7 +314,7 @@ class Api extends CI_Controller {
 
 				$check = $this->preg_match_every(
 							array(
-									"/^[A-Za-z0-9]{30}$/",
+									"/^[A-Za-z0-9]+$/",
 									"/^.+$/",
 									"/^.+$/"						
 								),	

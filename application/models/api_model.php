@@ -20,7 +20,7 @@ class Api_model extends CI_Model {
     }
     function vaild_apikey($apikey)
     {
-        if(preg_match("/^[A-Za-z0-9]{30}$/", $apikey)!==1){
+        if(preg_match("/^[A-Za-z0-9]+$/", $apikey)!==1){
             return FALSE;
         }
 
