@@ -121,7 +121,7 @@ class Station extends CI_Controller {
 
 			switch ($status) {
 				case 'lock':
-					$html = '<span class="label label-warning">投票中</span><span class="label label-danger"><a onclick="kick(\'/station/kick/'.$b_id.'\');">KICK</a></span>';
+					$html = '<span class="label label-warning">投票中</span>';
 					break;
 
 				case 'free':
