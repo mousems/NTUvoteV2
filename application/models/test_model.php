@@ -17,7 +17,7 @@ class Test_model extends CI_Model {
     function get_unuse_authcode()
     {
         $this->db->select('authcode')->from('test_authcode');
-        $this->db->where('used' ,"<>0");
+        $this->db->where('used' ,"0");
         $this->db->order_by('RAND()');
         $this->db->limit('1');
         $query = $this->db->get();
