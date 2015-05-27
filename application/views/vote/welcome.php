@@ -26,12 +26,13 @@
         <h1><?=$title;?></h1>
 
         <h3><?=$boothname;?> - 票亭<?=$boothnum;?>號機</h3>
-        <h3>103-1學生代表大會學生代表選舉</h3>
+        <h3>103-2 臺大學生會暨自治組織聯合選舉</h3>
 
         <p>主辦單位：台灣大學學生會選舉罷免執行委員會</p>
         <p>開票時間：今天晚上 20:00</p>
-        <p>開票地點：第一學生活動中心 103 室。</p>
+        <p>開票地點：第一學生活動中心 202 室。</p>
         <p>注意事項：按開始即可開始投票，如有疑問請洽選務人員。</p>
+        <p>備註：感應學生證後，將派發匿名選票至本系統，供選舉人投票。</p>
         <form class="form-signin" role="form" action="<?=base_url('vote/vote_do');?>" method="POST">
           <button class="btn btn-lg btn-primary btn-block" type="submit">開始 Start</button>
         </form>

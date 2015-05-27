@@ -15,7 +15,7 @@
     <form action="<?=base_url('vote/vote_store/'.$authcode);?>" accept-charset="UTF-8" class="multiple-selection-form choose-one" method="post"><input name="skipped" class="skipped" style="display: none;" type="text" />
     <div class='header'>
       <hgroup class='title'>
-        <h1><?=$title1;?> <?=$title2;?></h1>
+        <h1><?=$title1;?> <small><?=$title2;?></small></h1>
         <h2><?=$title;?>（票亭<?=$boothname;?><?=$boothnum;?>號機） （step <?=$step+1;?> of <?=$count;?>）</h2>
       </hgroup>
       <div class='actions two-actions'>
