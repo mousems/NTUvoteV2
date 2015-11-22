@@ -852,17 +852,26 @@ class Admin extends CI_Controller {
 						'ballot_type_new' => ">>票種新增",
 						'candidate' => "候選人管理",
 						'candidate_new' => ">>候選人新增",
-						'setting' => "系統設定"
+						'setting' => "系統設定",
+						'caculate' => "開票"
 							 );
 
+		$this->load->model("vote_model");
+		$all_list = $this->vote_model->get_ballot_type_list();
+
+		foreach ($all_list as $key => $value) {
+			$id_mapping['caculate/'.$value->{'t_id'}] = ">>".$value->{'title1'};
+		}
+
+
 		//remove _new from $id
-		if (preg_match("/(\w+)_new/", $id , $matches)===1) {
+		if (preg_match("/(\w+)[-\/](\w*)/", $id , $matches)===1) {
 			$id = $matches[1];
 		}
 
 		//remove all *_new element except itself
 		foreach ($id_mapping as $key => $value) {
-			if (preg_match("/(\w+)_new/", $key)===1 && $key!=$id."_new") {
+			if (preg_match("/(\w+)[-\/]\w*/", $key)===1 && preg_match("/".$id."[_\/]/", $key) !== 1) {
 				unset($id_mapping[$key]);
 			}
 		}
@@ -875,6 +884,159 @@ class Admin extends CI_Controller {
 		$this->load->model("vote_model");
 		$this->vote_model->kick($b_id);
 		redirect('admin/','location');
+	}
+
+	public function caculate($t_id=0){
+		if ($t_id == 0) {
+
+			$pageid = "caculate";
+			$data = array(
+						'sider_array'=>$this->generateSiderArray($pageid),
+						'pageid'=>$pageid
+						);
+			$this->load->view('admin/'.$pageid, $data);
+		}else{
+			
+
+
+			$this->load->model("vote_model");
+			$all_list = $this->vote_model->get_ballot_type_list();
+			foreach ($all_list as $key => $value) {
+				if ($value->{'t_id'}==$t_id) {
+					$this_ballot_type_object = $value;
+				}
+			}
+
+			$candidate_list = array();
+			$all_list_candidate = $this->vote_model->get_candidate_list();
+			foreach ($all_list_candidate as $key => $value) {
+				if ($value->{'t_id'}==$t_id) {
+					$candidate_list[] = $value;
+				}
+			}
+
+			$file_raw = file_get_contents("/var/log/NTUticket/".$t_id);
+			$file_raw = explode("\n", $file_raw);
+
+			$result = array();
+
+			switch ($this_ballot_type_object->{'type'}) {
+				case 'single':
+				case 'many_single':
+					
+					foreach ($file_raw as $key => $value) {
+
+						if (preg_match("/:\d+\s(\d)/", $value, $freg) ===1){
+							if (isset($result[$freg[1]])) {
+								$result[$freg[1]]++;
+							}else{
+								$result[$freg[1]] = 1;
+							}
+						}
+
+					}
+
+
+					$candidate_title = array("廢票");
+
+					foreach ($candidate_list as $key => $value) {
+						$candidate_title[] = $value->{'num'}."-".$value->{'name'};
+					}
+					$candidate_value = array();
+					for ($i=0; $i < count($result); $i++) { 
+						$candidate_value[] = $result[$i];
+					}
+
+					$pageid = "caculate_show_single";
+					$data = array(
+								'sider_array'=>$this->generateSiderArray($pageid),
+								'pageid'=>$pageid,
+								'title1'=>$this_ballot_type_object->{'title1'},
+								'candidate_list' => $candidate_list,
+								'candidate_title' =>$candidate_title,
+								'candidate_value' =>$candidate_value
+								);
+					$this->load->view('admin/'.$pageid, $data);
+					break;
+
+				case 'multiple':
+				case 'many_multiple':
+					
+					foreach ($file_raw as $key => $value) {
+
+						if (preg_match("/-(\d+):([\-*]\d)/", $value, $freg) ===1){
+							if (isset($result[$freg[1]]["-1"])) {
+								$result[$freg[1]]["-1"]++;
+							}else{
+								$result[$freg[1]]["-1"] = 1;
+							}
+						}elseif(preg_match("/-(\d+):(\d)/", $value, $freg) ===1){
+							
+							if (isset($result[$freg[1]][$freg[2]])) {
+								$result[$freg[1]][$freg[2]]++;
+							}else{
+								$result[$freg[1]][$freg[2]] = 1;
+							}
+						}
+
+					}
+
+					$candidate_title = array();
+					foreach ($candidate_list as $key => $value) {
+						$candidate_title[] = $value->{'num'}."-".$value->{'name'};
+					}
+
+					$candidate_value = array();
+					
+					$candidate_object = new StdClass();
+					$candidate_object->{'name'} = "同意票";
+					$candidate_object->{'data'} = array();
+					$candidate_object->{'color'} = "#00FF00";
+
+
+					for ($i=1; $i <= count($result); $i++) { 
+						array_push($candidate_object->{'data'}, $result[$i]["1"]);
+					}
+					$candidate_value[] = $candidate_object;
+					$candidate_object = new StdClass();
+					$candidate_object->{'name'} = "廢票";
+					$candidate_object->{'data'} = array();
+					$candidate_object->{'color'} = "#000000";
+
+					for ($i=1; $i <= count($result); $i++) { 
+						array_push($candidate_object->{'data'}, $result[$i]["0"]);
+					}
+					$candidate_value[] = $candidate_object;
+					$candidate_object = new StdClass();
+					$candidate_object->{'name'} = "反對票";
+					$candidate_object->{'data'} = array();
+					$candidate_object->{'color'} = "#FF0000";
+
+
+					for ($i=1; $i <= count($result); $i++) { 
+						array_push($candidate_object->{'data'}, $result[$i]["-1"]);
+					}
+					$candidate_value[] = $candidate_object;
+
+
+
+
+					$pageid = "caculate_show_multi";
+					$data = array(
+								'sider_array'=>$this->generateSiderArray($pageid),
+								'pageid'=>$pageid,
+								'title1'=>$this_ballot_type_object->{'title1'},
+								'candidate_list' => $candidate_list,
+								'candidate_title' =>$candidate_title,
+								'candidate_value' =>$candidate_value
+
+								);
+					$this->load->view('admin/'.$pageid, $data);
+					break;
+			}
+
+
+		}
 	}
 }
 

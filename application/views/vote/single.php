@@ -25,7 +25,7 @@
       <input name="selection" id="selection" type="hidden" />
     </div>
     <div class='main' id='main'>
-      <div class='scrolling-hint'>向右滑動來完成票選</div>
+      <div class='scrolling-hint'>請向右滑動到底再送出</div>
       <div class='votes'>
         <div class='vote'>
           <?php

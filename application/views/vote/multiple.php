@@ -20,11 +20,11 @@
       </hgroup>
       <div class='actions two-actions'>
         <button class='button skip'>不領票 Skip</button>
-        <input value="送出選票 Submit" class="action button" type="submit" />
+        <input type="submit" value="送出選票 Submit" class="action button disabled" />
       </div>
     </div>
     <div class='main' id='main'>
-      <div class='scrolling-hint'>向右滑動來完成票選</div>
+      <div class='scrolling-hint'>請向右滑動到底再送出</div>
       <div class='votes'>
           <?php
 
@@ -37,9 +37,11 @@
             <div class='candidate'>
               <div class='id'><?=$value->{'num'};?></div>
               <div class='choices'>
-                <label class='agree'><input name="opinion_to_<?=$value->{'num'};?>" class="agree" value="1" type="radio" /></label>
-                <label class='none'><input name="opinion_to_<?=$value->{'num'};?>" class="none" value="0" checked="checked" type="radio" /></label>
-                <label class='disagree'><input name="opinion_to_<?=$value->{'num'};?>" class="disagree" value="-1" type="radio" /></label>
+
+                <label class='agree'><input type="radio" name="opinion_to_<?=$value->{'num'};?>" class="agree" value="1" /></label>
+                <label class='neutral'><input type="radio" name="opinion_to_<?=$value->{'num'};?>" class="neutral" value="0" /></label>
+                <label class='disagree'><input type="radio" name="opinion_to_<?=$value->{'num'};?>" class="disagree" value="-1" /></label>
+                <label class='none'><input type="radio" name="opinion_to_<?=$value->{'num'};?>" class="none" checked="checked" value="11"/></label>
               </div>
               <div class='pic'>
                 <div class='img' style='background-image: url(<?=$value->{'img'};?>)'></div>

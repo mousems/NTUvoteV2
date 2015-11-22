@@ -172,6 +172,9 @@ class Vote extends CI_Controller {
 								$tmp->{'opinion'} = '-1';
 								break;
 
+							case '11': // 無意見
+								$tmp->{'opinion'} = '11';
+								break;
 							default:
 								$tmp->{'opinion'} = '0';
 								break;

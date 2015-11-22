@@ -29,8 +29,11 @@
             <option value="admin">管理員</option>
         </select>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <h2>
+            <a href="/testvote">票亭測試投票由此去</a>
+        </h2>
       </form>
-
+        
     </div> <!-- /container -->
 
 

@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>測試安安</title>
+    <title>票亭測試活動</title>
 
     <link href="<?=base_url('assets/css/bootstrap.min.css');?>" rel="stylesheet">
     <link href="<?=base_url('assets/css/signin.css');?>" rel="stylesheet">
@@ -18,9 +18,21 @@
   <body>
 
     <div class="container">
+      <div class="col-sm-2">
+      </div>
+      <div class="col-sm-8">
+        <h1>NTU VOTE 系統體驗</h1>
+          <h3>104-1學代選舉 票點票選活動 </h3>
 
+          <p>主辦單位：臺大學生會選委會</p>
+          <p>舉辦時間：11/20(Fri) 00:00 - 11/27(Fri) 23:59</p>
+          <p>注意事項：按開始即可開始投票，如有疑問請洽<a href="https://www.facebook.com/NTUVote/" target="_blank">臺大學生會選委會</a>。</p>
+          <p>◎投票介面與選舉當日(12/17)所操作之機台相同。</p>
+          <p>唯投票當日，須至實體票點感應學生證，將會派發匿名選票至本系統，供選舉人投票。</p>
+          <p>◎選票中出現「請向右滑動到底」之圖示為因應選舉當日使用之機台為平板電腦做設計。</p>
+      </div>
       <form class="form-signin" role="form" action="<?=base_url('testvote/do_submit');?>" method="POST">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">刷卡！</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">開始！</button>
       </form>
       <h2><?=$title_return;?></h2>
 

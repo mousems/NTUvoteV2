@@ -32,7 +32,7 @@ class Testvote extends CI_Controller {
 		$authcode_plain = $this->test_model->get_unuse_authcode();
 		$ballotname = $this->test_model->get_ballotlist(substr($authcode_plain, 0,2));
 		
-
+		redirect('/vote/remote/'.$authcode_plain,'location');
 
 		$ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://ntuvote.org/api/vote/new");

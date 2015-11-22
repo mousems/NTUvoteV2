@@ -21,10 +21,11 @@
       <div class="col-sm-3">
       </div>
       <div class="col-dm-3 col-sm-6">
-        <h1><?=$title;?></h1>
-        <h2>票亭<?=$boothname;?><?=$boothnum;?>號機</h2>
-        <h2>投票完成，謝謝您。</h2>
-        <h2>Complete , Thank You.</h2>
+        <!-- <h1><?=$title;?></h1>
+        <h2>票亭：<?=$boothname;?><?=$boothnum;?>號機</h2> -->
+        <h1>NTU VOTE 系統體驗</h1>
+        <h2>完成，謝謝您。</h2>
+        <h3>投票結果將作為選委會決定票點之參考，實際票點設置請密切注意本會於12/1發布之選舉公告。</h3>
       </div>
 
 
