@@ -21,6 +21,7 @@ class Api_model extends CI_Model {
     function vaild_apikey($apikey)
     {
         if(preg_match("/^[A-Za-z0-9]+$/", $apikey)!==1){
+            log_message("hiiiiiiiii api1");
             return FALSE;
         }
 
@@ -28,6 +29,7 @@ class Api_model extends CI_Model {
         $this->db->from('apikey')->where('apikey_hash' , sha1($apikey));
         $query = $this->db->get();
         if ($query->num_rows()==0) {
+            log_message("hiiiiiiiii api2");
             return FALSE;
         }else{
             return TRUE;

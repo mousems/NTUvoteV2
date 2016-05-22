@@ -926,7 +926,7 @@ class Admin extends CI_Controller {
 					
 					foreach ($file_raw as $key => $value) {
 
-						if (preg_match("/:\d+\s(\d)/", $value, $freg) ===1){
+						if (preg_match("/:\d+\s(\d+)$/", $value, $freg) ===1){
 							if (isset($result[$freg[1]])) {
 								$result[$freg[1]]++;
 							}else{
@@ -964,13 +964,13 @@ class Admin extends CI_Controller {
 					
 					foreach ($file_raw as $key => $value) {
 
-						if (preg_match("/-(\d+):([\-*]\d)/", $value, $freg) ===1){
+						if (preg_match("/-(\d+):([\-*]\d+)$/", $value, $freg) ===1){
 							if (isset($result[$freg[1]]["-1"])) {
 								$result[$freg[1]]["-1"]++;
 							}else{
 								$result[$freg[1]]["-1"] = 1;
 							}
-						}elseif(preg_match("/-(\d+):(\d)/", $value, $freg) ===1){
+						}elseif(preg_match("/-(\d+):(\d+)$/", $value, $freg) ===1){
 							
 							if (isset($result[$freg[1]][$freg[2]])) {
 								$result[$freg[1]][$freg[2]]++;
@@ -987,38 +987,41 @@ class Admin extends CI_Controller {
 					}
 
 					$candidate_value = array();
-					
 					$candidate_object = new StdClass();
 					$candidate_object->{'name'} = "同意票";
 					$candidate_object->{'data'} = array();
 					$candidate_object->{'color'} = "#00FF00";
-
-
 					for ($i=1; $i <= count($result); $i++) { 
 						array_push($candidate_object->{'data'}, $result[$i]["1"]);
 					}
+
 					$candidate_value[] = $candidate_object;
 					$candidate_object = new StdClass();
 					$candidate_object->{'name'} = "廢票";
 					$candidate_object->{'data'} = array();
 					$candidate_object->{'color'} = "#000000";
-
 					for ($i=1; $i <= count($result); $i++) { 
 						array_push($candidate_object->{'data'}, $result[$i]["0"]);
 					}
+
 					$candidate_value[] = $candidate_object;
 					$candidate_object = new StdClass();
 					$candidate_object->{'name'} = "反對票";
 					$candidate_object->{'data'} = array();
 					$candidate_object->{'color'} = "#FF0000";
-
-
 					for ($i=1; $i <= count($result); $i++) { 
 						array_push($candidate_object->{'data'}, $result[$i]["-1"]);
 					}
+
 					$candidate_value[] = $candidate_object;
-
-
+					$candidate_object = new StdClass();
+					$candidate_object->{'name'} = "不表態票";
+					$candidate_object->{'data'} = array();
+					$candidate_object->{'color'} = "#0000FF";
+					for ($i=1; $i <= count($result); $i++) { 
+						array_push($candidate_object->{'data'}, $result[$i]["11"]);
+					}
+					$candidate_value[] = $candidate_object;
 
 
 					$pageid = "caculate_show_multi";

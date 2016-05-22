@@ -64,7 +64,7 @@ class Vote_model extends CI_Model {
 
 
             $boothusername = $username."-".$i;
-            $booth_password = $this->generateRandomString(10);
+            $booth_password = $this->generateRandomString(8);
             $booth_passwordenmd5 = md5(md5($booth_password).$boothusername);
             $data = array(
                'a_id' => $a_id,

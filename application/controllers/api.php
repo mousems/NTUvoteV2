@@ -18,21 +18,30 @@ class Api extends CI_Controller {
 
 	public function preg_match_every($patterns , $values)
 	{
+		log_message("debug","hiiiii".json_encode($patterns).json_encode($values));
 		// $parttens = array(pattern1 , pattern2 ...)
 		// $values = array(value1 , value2 ...)
 		//will check each patten map to value then return TRUE if all ok.
 		if (count($patterns)!==count($values)) {
+					log_message("debug","hiiiii1".json_encode($patterns).json_encode($values));
+
 			return FALSE;
 		}
 		foreach ($patterns as $pkey => $pvalue) {
 			if ($values[$pkey]===FALSE) {
+						log_message("debug","hiiiii2".json_encode($patterns).json_encode($values));
+
 				return FALSE;
 			}
 
 			if (preg_match($pvalue, $values[$pkey])!==1) {
+						log_message("debug","hiiiii3".json_encode($patterns).json_encode($values));
+
 				return FALSE;
 			}
 		}
+								log_message("debug","hiiiii4".json_encode($patterns).json_encode($values));
+
 		return TRUE;
 	}
 
@@ -60,7 +69,7 @@ class Api extends CI_Controller {
 					//check apikey
 					if(!$this->api_model->vaild_apikey($this->input->post("apikey"))){
 						$response = json_encode(array("status"=>"error", "api_callid"=>$random_api_callid , "message"=>"apikey wrong"));
-						log_message('info', 'apilog:api response:'.$response);
+						log_message('info', 'apilog:1api response:'.$response);
 						echo $response;
 						http_response_code(400);
 						return FALSE;
