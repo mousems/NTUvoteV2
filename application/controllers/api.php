@@ -128,7 +128,7 @@ class Api extends CI_Controller {
 
 					$this->api_model->map_authcode_booth($this->input->post("a_id") ,$free_booth_num,$this->input->post("authcode"));
 
-					
+					file_get_contents($this->input->post("callback"));
 					$response = json_encode(array("status"=>"ok", "api_callid"=>$random_api_callid , "num"=>$free_booth_num));
 					log_message('info', 'apilog:api response:'.$response);
 					echo $response;
