@@ -27,6 +27,10 @@ class Login extends CI_Controller {
 				case 'vote':
 					redirect('vote', 'location');
 					break;
+
+				case 'auth':
+					redirect('auth', 'location');
+					break;
 				
 				default:
 					$this->load->view('login');
@@ -88,6 +92,10 @@ class Login extends CI_Controller {
 					
 					case 'vote':
 						redirect('vote', 'location');
+						break;
+
+					case 'auth':
+						redirect('auth', 'location');
 						break;
 					
 					default:

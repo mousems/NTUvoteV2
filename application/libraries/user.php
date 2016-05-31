@@ -74,6 +74,7 @@ class User {
 		switch ($login_type) {
 			case 'admin':
 			case 'station':
+			case 'auth':
 
 				$this->db->from('account')->where('username',$username);
 				$query = $this->db->get();
@@ -91,6 +92,7 @@ class User {
 								$this->CI->session->set_userdata('logintype' , $row->{'rule'});
 								$this->CI->session->set_userdata('username' , $username);
 								$this->CI->session->set_userdata('a_id' , $row->{'a_id'});
+								$this->CI->session->set_userdata('booth_name' , $row->{'name'});
 								$this->CI->session->set_userdata('passen' , $password);
 								return TRUE;
 
@@ -158,7 +160,7 @@ class User {
 		        $this->update_lastseen($row->{'b_id'});
 
 				if ($hashed) {
-					
+					log_message('debug', "passwordtry:".$password." ".$username);
 					if ($row->{'password'} == md5($password.$username)) {
 						$this->CI->session->set_userdata('booth_name' , $booth_name);
 						$this->CI->session->set_userdata('logintype' , "vote");

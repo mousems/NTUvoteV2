@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Login | NTUVoteV2</title>
+    <title>身份驗證 | NTUVoteV2</title>
 
     <link href="<?=base_url('assets/css/bootstrap.min.css');?>" rel="stylesheet">
     <link href="<?=base_url('assets/css/signin.css');?>" rel="stylesheet">
@@ -18,22 +18,19 @@
   <body>
 
     <div class="container">
-
-      <form class="form-signin" role="form" action="<?=base_url('login/login_do');?>" method="POST">
-        <h2 class="form-signin-heading"><?=$title;?></h2>
-        <input type="username" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
-        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
-        登入身份：<select id="logintype" name="logintype">
-            <option value="auth" selected>身份驗證</option>
-            <option value="vote">票亭</option>
-            <option value="station">投票所</option>
-            <option value="admin">管理員</option>
-        </select>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-        <h2>
-            <p>104-2重新投票請選擇「身份驗證」</p>
-        </h2>
+        <?=$warning_html;?>
+      <form class="form-signin" role="form" action="<?=base_url('auth/auth_do');?>" method="POST">
+        <h2 class="form-signin-heading">104-2身份驗證</h2>
+        <h4>投票地點：<?=$boothname;?></h4>
+        <input type="student_id" id="student_id" name="student_id" class="form-control" placeholder="Student ID" required autofocus>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">送出</button>
+        <h3>
+            <p>送出後請詳細核對身份類別</p>
+        </h3>
+        <p>本票所已取票人數：<?=$voted_count;?>
+        <a href="/admin/logout">登出</a>
       </form>
+
         
     </div> <!-- /container -->
 

@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Login | NTUVoteV2</title>
+    <title>身份驗證 | NTUVoteV2</title>
 
     <link href="<?=base_url('assets/css/bootstrap.min.css');?>" rel="stylesheet">
     <link href="<?=base_url('assets/css/signin.css');?>" rel="stylesheet">
@@ -18,22 +18,27 @@
   <body>
 
     <div class="container">
+        
+        
+        <form class="form-signin" role="form" action="<?=base_url('auth/auth_vote_do/');?>" method="POST">
+            <h2 class="form-signin-heading">104-2身份驗證</h2>
+            <h4>學號：<?=$student_id;?></h4>
+            <h4>系所：<?=$dept_name;?></h4>
+            <?php
+                foreach ($ballot_list as $key => $value) {
+            ?>
+            <h4>選票<?=$key+1;?>：<?=$value;?></h4>
+            <?php
+                }
 
-      <form class="form-signin" role="form" action="<?=base_url('login/login_do');?>" method="POST">
-        <h2 class="form-signin-heading"><?=$title;?></h2>
-        <input type="username" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
-        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
-        登入身份：<select id="logintype" name="logintype">
-            <option value="auth" selected>身份驗證</option>
-            <option value="vote">票亭</option>
-            <option value="station">投票所</option>
-            <option value="admin">管理員</option>
-        </select>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-        <h2>
-            <p>104-2重新投票請選擇「身份驗證」</p>
-        </h2>
-      </form>
+            ?>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">確認取票</button>
+        　<input type="hidden" name="student_id" value="<?=$student_id;?>">
+        </form>
+        </br></br></hr>
+        <form class="form-signin" role="form" action="<?=base_url('auth');?>" method="POST">
+          <button class="btn btn-lg btn-primary btn-block" type="submit">返回前頁</button>
+        </form>
         
     </div> <!-- /container -->
 

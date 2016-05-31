@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Login | NTUVoteV2</title>
+    <title>身份驗證 | NTUVoteV2</title>
 
     <link href="<?=base_url('assets/css/bootstrap.min.css');?>" rel="stylesheet">
     <link href="<?=base_url('assets/css/signin.css');?>" rel="stylesheet">
@@ -18,22 +18,13 @@
   <body>
 
     <div class="container">
-
-      <form class="form-signin" role="form" action="<?=base_url('login/login_do');?>" method="POST">
-        <h2 class="form-signin-heading"><?=$title;?></h2>
-        <input type="username" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
-        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
-        登入身份：<select id="logintype" name="logintype">
-            <option value="auth" selected>身份驗證</option>
-            <option value="vote">票亭</option>
-            <option value="station">投票所</option>
-            <option value="admin">管理員</option>
-        </select>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-        <h2>
-            <p>104-2重新投票請選擇「身份驗證」</p>
-        </h2>
-      </form>
+        
+        
+        <form class="form-signin" role="form" action="<?=base_url('auth/');?>" method="POST">
+            <h2 class="form-signin-heading">104-2身份驗證</h2>
+            <h4><?=$student_id;?> 取票完成</h4>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">繼續驗身份</button>
+        </form>
         
     </div> <!-- /container -->
 
