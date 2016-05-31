@@ -90,6 +90,19 @@ class Auth_core_model extends CI_Model {
         return $query->num_rows();
     }
 
+    function get_all_people()
+    {
+        $this->db->select('account.name as name, count(*) as count');
+        $this->db->from('auth_studata');
+        $this->db->join('account','auth_studata.a_id=account.a_id');
+        $this->db->where('auth_studata.a_id !=',"");
+        $this->db->group_by('auth_studata.a_id');
+        $this->db->order_by('auth_studata.a_id','asc');
+        $query = $this->db->get()->result();;
+
+        return $query;
+    }
+
 }
 
 ?>

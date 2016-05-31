@@ -18,8 +18,9 @@
   <body>
 
     <div class="container">
-        <?=$warning_html;?>
+        
       <form class="form-signin" role="form" action="<?=base_url('auth/auth_do');?>" method="POST">
+        <?=$warning_html;?>
         <h2 class="form-signin-heading">104-2身份驗證</h2>
         <h4>投票地點：<?=$boothname;?></h4>
         <input type="student_id" id="student_id" name="student_id" class="form-control" placeholder="Student ID" required autofocus>

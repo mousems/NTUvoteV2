@@ -124,4 +124,25 @@ class Auth extends CI_Controller {
 
 	}
 
+	public function see_all_booth()
+	{
+		$this->load->model('auth_core_model');
+
+		$return = $this->auth_core_model->get_all_people();
+
+		$message = "";
+		foreach ($return as $key => $value) {
+			$message.=$value->{'name'}.":".$value->{'count'}."<br />";
+		}
+
+		$data = array(
+				"voted_count"=>$this->auth_core_model->get_voted_people($this->session->userdata('a_id')),
+				"boothname"=>$this->session->userdata('booth_name'),
+				"warning_html"=>$message,
+				"title"=>$this->config_lib->Get_Config('title')		
+				);
+		$this->load->view('/auth/welcome' , $data);
+		
+	}
+
 }
