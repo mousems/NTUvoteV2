@@ -622,6 +622,10 @@ class Admin extends CI_Controller {
 				case 'multiple':
 					$mapping_html = '<span class="label label-success">'.$value->{'title1'}.'</span><span class="label label-default">正反決</span>';
 					break;
+
+				case 'many':
+					$mapping_html = '<span class="label label-primary">'.$value->{'title1'}.'</span><span class="label label-default">多人多數決</span>';
+					break;
 					
 			}
 
