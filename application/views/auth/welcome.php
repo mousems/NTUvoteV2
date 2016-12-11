@@ -21,14 +21,19 @@
         
       <form class="form-signin" role="form" action="<?=base_url('auth/auth_do');?>" method="POST">
         <?=$warning_html;?>
-        <h2 class="form-signin-heading">104-2身份驗證</h2>
+        <h2 class="form-signin-heading">105-1身份驗證</h2>
         <h4>投票地點：<?=$boothname;?></h4>
         <input type="student_id" id="student_id" name="student_id" class="form-control" placeholder="Student ID" required autofocus>
         <button class="btn btn-lg btn-primary btn-block" type="submit">送出</button>
         <h3>
             <p>送出後請詳細核對身份類別</p>
+            <!-- <p>目前暫停投票，請靜待選務中心通知</p> -->
         </h3>
-        <p>本票所已取票人數：<?=$voted_count;?>
+        <!--script type="text/javascript">
+            alert("現在暫停投票，請靜待選務中心通知");
+        </script-->
+        <p>本票所已取票人數：<?=$voted_count;?></p>
+        <p>請隨時確認上列人數與簽名人數相符。</p>
         <a href="/admin/logout">登出</a>
       </form>
 

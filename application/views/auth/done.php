@@ -21,7 +21,7 @@
         
         
         <form class="form-signin" role="form" action="<?=base_url('auth/');?>" method="POST">
-            <h2 class="form-signin-heading">104-2身份驗證</h2>
+            <h2 class="form-signin-heading">105-1身份驗證</h2>
             <h4><?=$student_id;?> 取票完成</h4>
             <button class="btn btn-lg btn-primary btn-block" type="submit">繼續驗身份</button>
         </form>

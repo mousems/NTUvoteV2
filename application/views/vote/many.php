@@ -50,5 +50,9 @@
     </div>
     </form>
     <script src="<?=base_url('assets/js/all.js');?>" type="text/javascript"></script>
+    <script>
+    	$(".action.button").attr("disabled",!1);
+    </script>
+
   </body>
 </html>

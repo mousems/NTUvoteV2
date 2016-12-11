@@ -21,7 +21,7 @@
         
         
         <form class="form-signin" role="form" action="<?=base_url('auth/auth_vote_do/');?>" method="POST">
-            <h2 class="form-signin-heading">104-2身份驗證</h2>
+            <h2 class="form-signin-heading">105-1身份驗證</h2>
             <h4>學號：<?=$student_id;?></h4>
             <h4>系所：<?=$dept_name;?></h4>
             <?php

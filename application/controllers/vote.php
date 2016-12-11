@@ -125,6 +125,7 @@ class Vote extends CI_Controller {
 				return TRUE;
 			}
 			switch ($ballot_type_status->{'type'}) {
+				case 'many':
 				case 'single':
 				case 'many_single':
 

@@ -36,7 +36,7 @@ class Ticket_lib {
 		
 
 		if (get_file_info($filename)==FALSE) {
-			$content = date("Y.m.d H:i")." ".$selection;
+			$content = date("Y.m.d H:i:s")." ".$selection;
 		}else{
 			$content = "\n".date("Y.m.d H:i:s")." ".$selection;
 		}

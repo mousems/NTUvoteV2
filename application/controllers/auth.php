@@ -67,7 +67,8 @@ class Auth extends CI_Controller {
 		$this->load->model('auth_core_model');
 		$this->load->model('vote_core_model');
 		$student_id = $this->input->post('student_id');
-
+		$student_id = strtoupper($student_id);
+		log_message("debug","auth log auth_do ".$student_id." ".$this->session->userdata('a_id'));
 		$return = $this->auth_core_model->whether_voted($student_id);
 
 		if ($return === "student_notfound") {
@@ -107,18 +108,35 @@ class Auth extends CI_Controller {
 	{
 		// 確認取票並顯示票卷內容
 		$this->load->model('auth_core_model');
+		$this->load->model('vote_core_model');
 		$student_id = $this->input->post('student_id');
-		// 寫入資料庫
-		$return = $this->auth_core_model->set_vote_step($student_id);
+		$student_id = strtoupper($student_id);
 
-		if($return===true){
+		log_message("debug","auth log auth_vote_do ".$student_id." ".$this->session->userdata('a_id'));
+		if ($student_id!=="") {
+				
+			$return = $this->auth_core_model->whether_voted($student_id);
 
-			$data = array(
-				"student_id"=>$student_id
-			);
-			$this->load->view('/auth/done' , $data);
-		}else{
-			redirect('auth/welcome', 'location');
+			if ($return === "student_notfound") {
+				redirect('auth/welcome/student_notfound', 'location');
+			}elseif ($return === "already_vote") {			
+				redirect('auth/welcome/already_vote', 'location');
+			}else{
+
+
+				// 寫入資料庫
+				$return = $this->auth_core_model->set_vote_step($student_id);
+
+				if($return===true){
+
+					$data = array(
+						"student_id"=>$student_id
+					);
+					$this->load->view('/auth/done' , $data);
+				}else{
+					redirect('auth/welcome', 'location');
+				}
+			}# code...
 		}
 
 

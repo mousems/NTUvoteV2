@@ -36,6 +36,7 @@ class Auth_core_model extends CI_Model {
     function get_stu_data($student_id)
     {
 
+        $student_id = strtoupper($student_id);
         // 假設此學生存在資料裡，使用此功能要先確定學號存在
 
         // check special list first
@@ -69,6 +70,7 @@ class Auth_core_model extends CI_Model {
     function set_vote_step($student_id)
     {
 
+        $student_id = strtoupper($student_id);
         $this->db->where('student_id',$student_id);
         $this->db->update('auth_studata', array(
             'step'=>'1',
