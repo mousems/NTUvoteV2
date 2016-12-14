@@ -12,6 +12,6 @@ RewriteEngine on
 	RewriteCond %{REQUEST_URI} !^/assets/css/fonts/([^/]*)\.woff$
 
 	RewriteCond %{REQUEST_URI} !^/assets/img/([^/]*)\.(jpeg|jpg|png|gif)$
-	RewriteCond %{REQUEST_URI} !^/assets/img/cimg/(.*)\.(jpeg|jpg|png|gif)$
+	RewriteCond %{REQUEST_URI} !^/assets/img/cimg/(.*)\.(JPG|PNG|jpeg|jpg|png|gif)$
 	RewriteCond %{REQUEST_URI} !^/assets/js/([^/]*)\.js$
 	RewriteRule ^ index\.php [NC,L]
