@@ -24,14 +24,14 @@
         <input type="username" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
         <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
         登入身份：<select id="logintype" name="logintype">
-            <option value="auth">身份驗證</option>
-            <option value="vote" selected>票亭</option>
+            <option value="auth" selected>身份驗證</option>
+            <option value="vote">票亭</option>
             <option value="station">投票所</option>
             <option value="admin">管理員</option>
         </select>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
         <h2>
-            <p>105-1選舉平板請選擇「票亭」</p>
+            <p>105-1 社科院與電資院學代二次選舉請選擇「身份驗證」</p>
         </h2>
       </form>
         
