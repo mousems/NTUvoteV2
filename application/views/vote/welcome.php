@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Login | NTUVoteV2</title>
+    <title>線上投票 | 臺灣高等教育產業工會第三屆會員代表選舉</title>
 
     <link href="<?=base_url('assets/css/bootstrap.min.css');?>" rel="stylesheet">
     <link href="<?=base_url('assets/css/signin.css');?>" rel="stylesheet">
@@ -23,19 +23,22 @@
       <div class="col-sm-8">
         <?=$warning_html;?>
 
-        <h1><?=$title;?></h1>
+        <!-- <h1><?=$title;?></h1> -->
 
-        <h3><?=$boothname;?> - 票亭<?=$boothnum;?>號機</h3>
-        <h3>105-2 臺大學生會暨自治組織聯合選舉</h3>
-        <p>主辦單位：臺大學學生會選舉罷免執行委員會</p>
-        <p>開票時間：今天晚上20:00</p>
-        <p>開票地點：第一學生活動中心一樓二手流浪書區</p>
-        <p>注意事項：按開始即可開始投票，如有疑問請洽選務人員</p>
-        <p>備註：投票方式請見遮圍內說明</p>
+        <h3>臺灣高等教育產業工會第三屆會員代表選舉</h3>
+        <p>主辦單位：臺灣高等教育產業工會</p>
+        <p>投票時間：2017年12月11日9時 至 12月12日18時</p>
+        <p>開票時間：2017年12月12日19時</p>
+        <p>開票地點：臺灣高等教育產業工會辦公室</p>
+        <p>投票方式：點選開始投票後，進入投票頁面。</p>
+        <p>注意事項：請使用電腦開啟本系統</p>
+        <br />
+        <p><img src="<?=base_url('assets/img/logo.jpg');?>" style="width:300px"></p>
+        <p>理監事召集人 李威霆</p>
         
-        <form class="form-signin" role="form" action="<?=base_url('vote/vote_do');?>" method="POST">
+        <!-- <form class="form-signin" role="form" action="<?=base_url('vote/vote_do');?>" method="POST">
           <button class="btn btn-lg btn-primary btn-block" type="submit">開始 Start</button>
-        </form>
+        </form> -->
       </div>
 <!-- 
       <div class="col-sm-8">

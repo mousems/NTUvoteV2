@@ -169,7 +169,7 @@ class User {
 						$this->CI->session->set_userdata('passen' , $password);
 						return TRUE;
 					}else{
-						log_message('debug' , "password not match , hashed=T");
+						log_message('debug' , "password not match , hashed=T".md5($password.$username));
 						return FALSE;
 					}
 

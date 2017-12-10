@@ -17,7 +17,9 @@ class Vote extends CI_Controller {
 
 		if (!$this->user->valid_session('vote') && $this->uri->segment(2)!="remote")
 		{
-			redirect('login/logout', 'location');
+			if ($this->uri->segment(2)!="remote_link") {
+				redirect('login/logout', 'location');
+			}
 		}
 
 	}
@@ -28,6 +30,25 @@ class Vote extends CI_Controller {
 
 
 	}
+
+	public function remote_link($authcode="")
+	{
+		$this->load->library("config_lib");
+		$remote_account_pass = $this->config_lib->Get_Config("remote_pass");
+		$this->load->library('user');
+		
+		if(!$this->user->valid_account("vote","remote-1",$remote_account_pass,TRUE)){
+			redirect('login/logout', 'location');
+			return 0;
+		}
+		$data = array(
+				"title"=>$this->config_lib->Get_Config('title'),
+				"authcode"=>$authcode
+				);
+		$this->load->view('/vote/welcome_remote' , $data);
+
+	}
+
 	public function remote($authcode="")
 	{
 		$this->load->library("config_lib");
@@ -125,7 +146,7 @@ class Vote extends CI_Controller {
 				return TRUE;
 			}
 			switch ($ballot_type_status->{'type'}) {
-				case 'many':
+				
 				case 'single':
 				case 'many_single':
 
@@ -152,6 +173,25 @@ class Vote extends CI_Controller {
 					
 				// 	break;
 
+				case 'many':
+					if ($this->input->post('selection')==FALSE) {
+						$selection = 0;
+						$store_result = $this->ticket_lib->Store_single($t_id , $selection);
+					}else{
+						$selection = $this->input->post('selection');
+						$selection = explode(",", $selection);
+						if (sizeof($selection) > $ballot_type_status->{'limit'}) {
+							$store_result = $this->ticket_lib->Store_single($t_id , 0);
+						}else{
+							foreach ($selection as $key => $value) {
+								$store_result = $this->ticket_lib->Store_single($t_id , $value);
+							}
+						}
+						
+						
+					}
+					
+					break;
 				case 'many_multiple':
 				case 'multiple':
 					$vote_result = array();
@@ -321,7 +361,9 @@ class Vote extends CI_Controller {
 								"count"=>$type_status->{'count'},
 								"candidate_list"=>$this->vote_core_model->get_candidate_list($ballot_type_status->{'t_id'}),
 								"authcode"=>$authcode,
-								"t_id"=>$t_id
+								"t_id"=>$t_id,
+								"limit"=>$ballot_type_status->{'limit'},
+								"select_count"=>$ballot_type_status->{'select'}
 
 								);
 						$this->load->view('/vote/many' , $data);
